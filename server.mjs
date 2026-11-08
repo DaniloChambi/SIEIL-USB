@@ -277,11 +277,18 @@ function renderPaginaVerificacionHTML(row, originUrl) {
     </header>
 
     <section class="verify-identity">
-      <div>
-        <p class="verify-uuid-label">ID Criptográfico: <code>${row.uuid}</code></p>
-        <h1>${row.nombre_completo}</h1>
-        <p class="verify-career" style="color:${carrera.color}">${carrera.nombre} — ${row.semestre}° Semestre</p>
-        <p class="verify-meta">Matrícula / Registro: <strong>${row.matricula || "Estudiante Regular USB"}</strong> · Sede: <strong>${row.ciudad || "La Paz, Bolivia"}</strong></p>
+      <div style="display:flex; align-items:center; gap:1.15rem; flex:1;">
+        ${
+          perfil.fotoDataUrl
+            ? `<div class="cv-photo-frame"><img src="${perfil.fotoDataUrl}" alt="Fotografía de ${row.nombre_completo}"></div>`
+            : ""
+        }
+        <div>
+          <p class="verify-uuid-label">ID Criptográfico: <code>${row.uuid}</code></p>
+          <h1>${row.nombre_completo}</h1>
+          <p class="verify-career" style="color:${carrera.color}">${carrera.nombre} — ${row.semestre}° Semestre</p>
+          <p class="verify-meta">Matrícula / Registro: <strong>${row.matricula || "Estudiante Regular USB"}</strong> · Sede: <strong>${row.ciudad || "La Paz, Bolivia"}</strong></p>
+        </div>
       </div>
       <div class="verify-qr-box">
         ${qrSvg}
@@ -577,6 +584,10 @@ const server = http.createServer(async (req, res) => {
         `usb-2026-${carrera.codigo.toLowerCase()}-${crypto.randomBytes(2).toString("hex")}`;
 
       perfil.uuid = uuid;
+      if (row && perfil.fotoDataUrl === undefined) {
+        const prevPerfil = JSON.parse(row.perfil_json || "{}");
+        if (prevPerfil.fotoDataUrl) perfil.fotoDataUrl = prevPerfil.fotoDataUrl;
+      }
       const carpetaIA = await generarCarpetaEmpleabilidadIA(perfil, apiKeyOverride);
       const matchingOfertas = calcularMatchingOfertas(perfil);
       const verifyUrl = `${originUrl}/verificar/${uuid}`;

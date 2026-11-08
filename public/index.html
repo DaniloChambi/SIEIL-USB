@@ -116,15 +116,39 @@
 
           <div class="form-grid-2">
             <div class="form-group">
+              <label for="email">Correo electrónico <span class="req">*</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" enterkeyhint="next" required aria-describedby="help-email">
+              <span id="help-email" class="hint">Si ya te registraste antes, escribe tu correo y tus datos se cargarán automáticamente.</span>
+              <div id="email-recovery-banner" class="email-recovery-notice" role="status" aria-live="polite" hidden></div>
+            </div>
+
+            <div class="form-group">
               <label for="nombreCompleto">Nombre completo <span class="req">*</span></label>
               <input type="text" id="nombreCompleto" name="nombreCompleto" autocomplete="name" enterkeyhint="next" required minlength="4" aria-describedby="help-nombre">
               <span id="help-nombre" class="hint">Tal como aparecerá en tu Currículum Vitae y Carta de Presentación.</span>
             </div>
 
-            <div class="form-group">
-              <label for="email">Correo electrónico <span class="req">*</span></label>
-              <input type="email" id="email" name="email" autocomplete="email" enterkeyhint="next" required aria-describedby="help-email">
-              <span id="help-email" class="hint">Puedes usar tu correo institucional (<code>@usalesiana.edu.bo</code>) o personal.</span>
+            <!-- Selector de Fotografía para el CV Formal -->
+            <div class="form-group form-col-full">
+              <label for="fotoInput" class="group-title-label">Fotografía para tu CV Institucional (Opcional)</label>
+              <div class="photo-upload-card">
+                <div class="photo-preview-frame" id="foto-preview-frame">
+                  <img id="foto-preview-img" src="" alt="Vista previa de fotografía" hidden>
+                  <span id="foto-placeholder-text" class="photo-placeholder-initials">FOTO</span>
+                </div>
+                <div class="photo-upload-controls">
+                  <div class="photo-buttons-row">
+                    <label for="fotoInput" class="btn-outline-sm photo-upload-btn">
+                      📷 Subir foto o tomar con cámara
+                    </label>
+                    <input type="file" id="fotoInput" name="fotoInput" accept="image/*" class="visually-hidden" aria-describedby="help-foto">
+                    <button type="button" id="btn-remove-foto" class="btn-secondary btn-remove-photo" hidden>
+                      ✕ Quitar foto
+                    </button>
+                  </div>
+                  <span id="help-foto" class="hint">Se optimiza automáticamente para tu CV Institucional y Sello QR (se oculta en el modo ATS).</span>
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
@@ -400,14 +424,19 @@
       <!-- SALIDA 1 y 2: HOJA DE CURRÍCULUM VITAE (FORMAL CON QR / ATS) -->
       <article id="doc-panel-cv" class="printable-sheet cv-sheet">
         <header class="cv-header">
-          <div class="cv-header-left">
-            <div class="cv-inst-badge" id="cv-inst-header">
-              <img src="/logo-usb.jpg" alt="Logo USB" class="cv-logo">
-              <span>UNIVERSIDAD SALESIANA DE BOLIVIA · PERFIL VERIFICADO SIEIL-USB</span>
+          <div class="cv-header-identity">
+            <div class="cv-photo-frame" id="cv-foto-wrap" hidden>
+              <img id="cv-foto-img" src="" alt="Fotografía del postulante">
             </div>
-            <h2 id="cv-nombre">Nombre del Estudiante</h2>
-            <p id="cv-titulo-carrera" class="cv-career-line">Carrera — Semestre</p>
-            <p id="cv-contacto" class="cv-contact-line">La Paz, Bolivia · correo@usalesiana.edu.bo · +591 70000000</p>
+            <div class="cv-header-left">
+              <div class="cv-inst-badge" id="cv-inst-header">
+                <img src="/logo-usb.jpg" alt="Logo USB" class="cv-logo">
+                <span>UNIVERSIDAD SALESIANA DE BOLIVIA · PERFIL VERIFICADO SIEIL-USB</span>
+              </div>
+              <h2 id="cv-nombre">Nombre del Estudiante</h2>
+              <p id="cv-titulo-carrera" class="cv-career-line">Carrera — Semestre</p>
+              <p id="cv-contacto" class="cv-contact-line">La Paz, Bolivia · correo@usalesiana.edu.bo · +591 70000000</p>
+            </div>
           </div>
           <div class="cv-qr-container" id="cv-qr-box">
             <div id="cv-qr-svg"></div>

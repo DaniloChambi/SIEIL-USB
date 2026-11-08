@@ -7,9 +7,66 @@ const state = {
   currentStep: 1,
   currentDocTab: "cv-formal",
   apiKey: localStorage.getItem("sieil_usb_apikey") || "",
+  fotoDataUrl: "",
   lastResult: null,
   livePollTimer: null
 };
+
+function actualizarVistaPreviaFoto(dataUrl) {
+  state.fotoDataUrl = dataUrl || "";
+  const img = document.getElementById("foto-preview-img");
+  const placeholder = document.getElementById("foto-placeholder-text");
+  const btnRemove = document.getElementById("btn-remove-foto");
+  if (!img || !placeholder || !btnRemove) return;
+
+  if (state.fotoDataUrl) {
+    img.src = state.fotoDataUrl;
+    img.hidden = false;
+    placeholder.hidden = true;
+    btnRemove.hidden = false;
+  } else {
+    img.removeAttribute("src");
+    img.hidden = true;
+    placeholder.hidden = false;
+    btnRemove.hidden = true;
+  }
+}
+
+function procesarArchivoFoto(file) {
+  if (!file || !file.type.startsWith("image/")) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const rawImg = new Image();
+    rawImg.onload = () => {
+      const targetW = 320;
+      const targetH = 384;
+      const canvas = document.createElement("canvas");
+      canvas.width = targetW;
+      canvas.height = targetH;
+      const ctx = canvas.getContext("2d");
+
+      // Recorte centrado proporcional tipo retrato (aspect ratio 5:6)
+      const srcRatio = rawImg.width / rawImg.height;
+      const dstRatio = targetW / targetH;
+      let sx = 0, sy = 0, sw = rawImg.width, sh = rawImg.height;
+      if (srcRatio > dstRatio) {
+        sw = rawImg.height * dstRatio;
+        sx = (rawImg.width - sw) / 2;
+      } else {
+        sh = rawImg.width / dstRatio;
+        sy = (rawImg.height - sh) * 0.25; // Prioriza encuadre superior del rostro
+      }
+
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, targetW, targetH);
+      ctx.drawImage(rawImg, sx, sy, sw, sh, 0, 0, targetW, targetH);
+      const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.85);
+      actualizarVistaPreviaFoto(compressedDataUrl);
+    };
+    rawImg.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 
 // Fallback de auto-crecimiento para navegadores sin soporte nativo de field-sizing: content
 function initGrowableTextareaFallback() {
@@ -307,6 +364,7 @@ function recolectarPerfilDelFormulario() {
     email: document.getElementById("email").value.trim(),
     telefono: document.getElementById("telefono").value.trim(),
     matricula: document.getElementById("matricula").value.trim(),
+    fotoDataUrl: state.fotoDataUrl || "",
     carreraId: carrera.id,
     semestre: Number(document.getElementById("semestre").value) || 8,
     mencion: document.getElementById("mencion").value.trim(),
@@ -337,7 +395,19 @@ function renderizarCarpetaGenerada(data) {
   document.getElementById("doc-provider-meta").innerHTML =
     `Generado por: <strong>${carpetaIA.proveedorUsado || "Motor IA SIEIL-USB"}</strong> · Código Único de Verificación: <a href="/verificar/${uuid}" target="_blank" rel="noopener"><code>${uuid}</code></a>`;
 
-  // 1. Renderizar CV
+  // 1. Renderizar CV y Fotografía Formal
+  const cvFotoWrap = document.getElementById("cv-foto-wrap");
+  const cvFotoImg = document.getElementById("cv-foto-img");
+  if (cvFotoWrap && cvFotoImg) {
+    if (perfil.fotoDataUrl) {
+      cvFotoImg.src = perfil.fotoDataUrl;
+      cvFotoWrap.hidden = false;
+    } else {
+      cvFotoImg.removeAttribute("src");
+      cvFotoWrap.hidden = true;
+    }
+  }
+
   document.getElementById("cv-nombre").textContent = perfil.nombreCompleto;
   const estadoSem =
     Number(perfil.semestre) >= carrera.semestres
@@ -560,21 +630,14 @@ async function ejecutarGeneracionCarpeta() {
   }
 }
 
-async function cargarPerfilDemoPorEmail(email) {
-  if (!email) return;
-  const res = await fetch("/api/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email })
-  });
-  if (!res.ok) return;
-  const { perfil } = await res.json();
-
+function rellenarFormularioConPerfil(perfil, mostrarAviso = false) {
   document.getElementById("nombreCompleto").value = perfil.nombreCompleto || "";
   document.getElementById("email").value = perfil.email || "";
   document.getElementById("telefono").value = perfil.telefono || "";
   document.getElementById("matricula").value = perfil.matricula || "";
   document.getElementById("carreraId").value = perfil.carreraId || "ingenieria-de-sistemas";
+
+  actualizarVistaPreviaFoto(perfil.fotoDataUrl || "");
 
   const carrera = obtenerCarreraSeleccionada();
   poblarSelectSemestres(carrera, Number(perfil.semestre) || 8);
@@ -588,8 +651,53 @@ async function cargarPerfilDemoPorEmail(email) {
     descEl.dispatchEvent(new Event("input"));
   }
 
+  if (perfil.experiencias?.[0]) {
+    document.getElementById("expCargo").value = perfil.experiencias[0].cargo || "";
+    document.getElementById("expInstitucion").value = perfil.experiencias[0].institucion || "";
+    const expLog = document.getElementById("expLogros");
+    expLog.value = perfil.experiencias[0].logros || "";
+    expLog.dispatchEvent(new Event("input"));
+  }
+
   renderizarPaso2CompetenciasYMalla(perfil.competenciasTecnicas);
-  await ejecutarGeneracionCarpeta();
+
+  if (Array.isArray(perfil.pastoral)) {
+    const pastIds = new Set(perfil.pastoral.map((p) => p.id));
+    document.querySelectorAll('input[name="pastoralItem"]').forEach((chk) => {
+      chk.checked = pastIds.has(chk.value);
+    });
+  }
+
+  const banner = document.getElementById("email-recovery-banner");
+  if (banner) {
+    if (mostrarAviso) {
+      banner.textContent = `✅ ¡Hola de nuevo, ${perfil.nombreCompleto}! Hemos recuperado tus datos guardados para que puedas actualizarlos.`;
+      banner.hidden = false;
+    } else {
+      banner.hidden = true;
+    }
+  }
+}
+
+async function cargarPerfilDemoPorEmail(email, esRecuperacionAutomatica = false) {
+  if (!email) return;
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email })
+  });
+  if (!res.ok) {
+    if (esRecuperacionAutomatica) {
+      const banner = document.getElementById("email-recovery-banner");
+      if (banner) banner.hidden = true;
+    }
+    return;
+  }
+  const { perfil } = await res.json();
+  rellenarFormularioConPerfil(perfil, esRecuperacionAutomatica);
+  if (!esRecuperacionAutomatica) {
+    await ejecutarGeneracionCarpeta();
+  }
 }
 
 async function cargarEstadisticasAulaMagna() {
@@ -660,6 +768,33 @@ async function initApp() {
 
   const form = document.getElementById("form-empleabilidad");
   initAccessibleValidation(form);
+
+  // Carga y compresión de Fotografía de Perfil
+  const fotoInput = document.getElementById("fotoInput");
+  const btnRemoveFoto = document.getElementById("btn-remove-foto");
+  if (fotoInput) {
+    fotoInput.addEventListener("change", (e) => {
+      const file = e.target.files?.[0];
+      if (file) procesarArchivoFoto(file);
+    });
+  }
+  if (btnRemoveFoto) {
+    btnRemoveFoto.addEventListener("click", () => {
+      if (fotoInput) fotoInput.value = "";
+      actualizarVistaPreviaFoto("");
+    });
+  }
+
+  // Recuperación automática de perfil al ingresar un correo ya registrado
+  const emailInput = document.getElementById("email");
+  if (emailInput) {
+    emailInput.addEventListener("blur", () => {
+      const emailVal = emailInput.value.trim().toLowerCase();
+      if (emailVal && emailInput.checkValidity()) {
+        cargarPerfilDemoPorEmail(emailVal, true);
+      }
+    });
+  }
 
   // Eventos de cambio de carrera y semestre
   document.getElementById("carreraId").addEventListener("change", () => {
