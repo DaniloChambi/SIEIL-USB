@@ -661,11 +661,43 @@ function rellenarFormularioConPerfil(perfil, mostrarAviso = false) {
 
   renderizarPaso2CompetenciasYMalla(perfil.competenciasTecnicas);
 
+  if (Array.isArray(perfil.competenciasTransversales)) {
+    const ctSet = new Set(perfil.competenciasTransversales);
+    document.querySelectorAll('input[name="competenciaTransversal"]').forEach((chk) => {
+      chk.checked = ctSet.has(chk.value);
+    });
+  }
+
+  if (Array.isArray(perfil.idiomas)) {
+    const idiomasTexto = perfil.idiomas.map((i) => `${i.idioma} ${i.nivel || ""}`.trim()).join(", ");
+    const idiomaEl = document.getElementById("idiomaPrincipal");
+    if (idiomaEl) idiomaEl.value = idiomasTexto;
+  }
+
   if (Array.isArray(perfil.pastoral)) {
     const pastIds = new Set(perfil.pastoral.map((p) => p.id));
     document.querySelectorAll('input[name="pastoralItem"]').forEach((chk) => {
       chk.checked = pastIds.has(chk.value);
     });
+  }
+
+  if (perfil.objetivoPostulacion) {
+    const objEl = document.getElementById("objetivoPostulacion");
+    if (objEl) objEl.value = perfil.objetivoPostulacion;
+  }
+
+  const selectOpp = document.getElementById("oportunidadId");
+  if (selectOpp) {
+    if (perfil.oportunidadId) {
+      selectOpp.value = perfil.oportunidadId;
+    } else {
+      const oppDeCarrera = state.catalogo.oportunidadesDemo?.find((o) => o.carreraId === carrera.id);
+      if (oppDeCarrera) selectOpp.value = oppDeCarrera.id;
+    }
+    const oppSeleccionada = state.catalogo.oportunidadesDemo?.find((o) => o.id === selectOpp.value);
+    if (oppSeleccionada && document.getElementById("entidadDestino")) {
+      document.getElementById("entidadDestino").value = perfil.entidadDestino || oppSeleccionada.entidad;
+    }
   }
 
   const banner = document.getElementById("email-recovery-banner");

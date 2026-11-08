@@ -53,8 +53,7 @@ function hashPassword(password) {
 }
 
 function crearSemillaInicial() {
-  const countRow = db.prepare("SELECT COUNT(*) as total FROM estudiantes").get();
-  if (countRow && countRow.total > 0) return;
+  const checkStmt = db.prepare("SELECT id FROM estudiantes WHERE email = ?");
 
   const ejemplos = [
     {
@@ -89,7 +88,8 @@ function crearSemillaInicial() {
       ],
       experiencias: [],
       objetivoPostulacion: "Trabajo Dirigido / Pasantía Preprofesional",
-      oportunidadId: "opp-sis-01"
+      oportunidadId: "opp-sis-01",
+      entidadDestino: "Banco PyME Ecofuturo"
     },
     {
       uuid: "usb-2026-der-4412",
@@ -122,7 +122,43 @@ function crearSemillaInicial() {
       ],
       experiencias: [],
       objetivoPostulacion: "Pasantía Preprofesional / Práctica Profesional",
-      oportunidadId: "opp-der-01"
+      oportunidadId: "opp-der-01",
+      entidadDestino: "Cámara Nacional de Comercio — CNC"
+    },
+    {
+      uuid: "usb-2026-con-5120",
+      nombreCompleto: "Carla Paola Gutiérrez Mendoza",
+      email: "carla.gutierrez@usalesiana.edu.bo",
+      telefono: "+591 73045612",
+      matricula: "USB-CON-2022089",
+      carreraId: "contaduria-publica",
+      semestre: 8,
+      mencion: "Auditoría Financiera, Tributaria y Costos Industriales",
+      competenciasTecnicas: ["con-eeff", "con-siat", "con-plan", "con-cost", "con-fin", "con-aud"],
+      competenciasTransversales: [
+        "Ética profesional y compromiso social salesiano",
+        "Resolución de problemas complejos y pensamiento crítico",
+        "Trabajo colaborativo y liderazgo de equipos"
+      ],
+      idiomas: [{ idioma: "Inglés Técnico Contable", nivel: "B1 Intermedio" }, { idioma: "Aymara", nivel: "Básico" }],
+      proyectos: [
+        {
+          titulo: "Legajo Completo de Auditoría Financiera y Tributaria (Papeles de Trabajo)",
+          materia: "AUD-511 Gabinete de Auditoría / AUD-513 Auditoría Tributaria",
+          descripcion: "Planificación de auditoría, evaluación de control interno COSO, pruebas sustantivas y emisión de dictamen de auditoría e informe tributario complementario (ITC)."
+        }
+      ],
+      pastoral: [
+        {
+          id: "past-ce",
+          titulo: "Representación y Voluntariado en Centro de Estudiantes Salesiano",
+          horas: 80
+        }
+      ],
+      experiencias: [],
+      objetivoPostulacion: "Trabajo Dirigido / Empleo Junior",
+      oportunidadId: "opp-con-01",
+      entidadDestino: "Consultora Delta Auditores & Asociados SRL"
     },
     {
       uuid: "usb-2026-gas-3319",
@@ -155,11 +191,117 @@ function crearSemillaInicial() {
       ],
       experiencias: [],
       objetivoPostulacion: "Primera Pasantía Preprofesional",
-      oportunidadId: "opp-gas-01"
+      oportunidadId: "opp-gas-01",
+      entidadDestino: "Hotel Casa Grande & Centro de Convenciones"
+    },
+    {
+      uuid: "usb-2026-ico-6743",
+      nombreCompleto: "Mateo Sebastián Alarcón Pinto",
+      email: "mateo.alarcon@usalesiana.edu.bo",
+      telefono: "+591 77289014",
+      matricula: "USB-ICO-2022033",
+      carreraId: "ingenieria-comercial",
+      semestre: 8,
+      mencion: "Inteligencia Comercial, Gestión de Calidad ISO y Marketing Estratégico",
+      competenciasTecnicas: ["ico-ven", "ico-mkt", "ico-fin", "ico-log", "ico-iso", "ico-bi", "ico-proy"],
+      competenciasTransversales: [
+        "Gestión de proyectos y orientación a resultados",
+        "Comunicación asertiva oral y redacción ejecutiva",
+        "Trabajo colaborativo y liderazgo de equipos"
+      ],
+      idiomas: [{ idioma: "Inglés de Negocios", nivel: "B2 Avanzado" }],
+      proyectos: [
+        {
+          titulo: "Plan Estratégico de Marketing y Posicionamiento Comercial",
+          materia: "COM-454 Marketing / COM-353 Ventas y Negociación",
+          descripcion: "Estudio de mercado cuantitativo, segmentación de clientes, diseño de estrategia omnicanal, embudo de ventas y presupuesto de retorno comercial."
+        }
+      ],
+      pastoral: [
+        {
+          id: "past-asociacionismo",
+          titulo: "Liderazgo en Asociacionismo Salesiano Universitario (ASU)",
+          horas: 110
+        }
+      ],
+      experiencias: [],
+      objetivoPostulacion: "Empleo Formal Junior / Trabajo Dirigido",
+      oportunidadId: "opp-ico-01",
+      entidadDestino: "Grupo Industrial CBN / Distribuidora Andina"
+    },
+    {
+      uuid: "usb-2026-edu-2895",
+      nombreCompleto: "Luciana Belén Morales Choque",
+      email: "luciana.morales@usalesiana.edu.bo",
+      telefono: "+591 78934521",
+      matricula: "USB-EDU-2022067",
+      carreraId: "ciencias-de-la-educacion",
+      semestre: 8,
+      mencion: "Diseño Curricular, Tecnología Educativa y Educación Inclusiva",
+      competenciasTecnicas: ["edu-ges", "edu-cur", "edu-did", "edu-div", "edu-proy", "edu-eval"],
+      competenciasTransversales: [
+        "Orientación al servicio, empatía y trato humano",
+        "Comunicación asertiva oral y redacción ejecutiva",
+        "Ética profesional y compromiso social salesiano"
+      ],
+      idiomas: [{ idioma: "Inglés Educativo", nivel: "A2" }, { idioma: "Aymara", nivel: "Intermedio" }],
+      proyectos: [
+        {
+          titulo: "Diseño de Proyecto Socioeducativo y Capacitación bajo Enfoque de Marco Lógico",
+          materia: "PED-421 Diseño de Proyectos Educativos / PED-312 Educación Comunitaria",
+          descripcion: "Diagnóstico participativo de necesidades formativas, matriz de planificación, guías didácticas, talleres presenciales/virtuales e indicadores de impacto."
+        }
+      ],
+      pastoral: [
+        {
+          id: "past-oratorio",
+          titulo: "Animador / Voluntario del Oratorio Universitario Salesiano",
+          horas: 140
+        }
+      ],
+      experiencias: [],
+      objetivoPostulacion: "Trabajo Dirigido / Acción Social",
+      oportunidadId: "opp-edu-01",
+      entidadDestino: "Fundación Fe y Alegría / Red de Obras Educativas Salesianas"
+    },
+    {
+      uuid: "usb-2026-psm-7134",
+      nombreCompleto: "Fabricio André Mamani Ramos",
+      email: "fabricio.mamani@usalesiana.edu.bo",
+      telefono: "+591 75218943",
+      matricula: "USB-PSM-2022019",
+      carreraId: "psicomotricidad",
+      semestre: 8,
+      mencion: "Estimulación Temprana, Neurodesarrollo y Psicomotricidad Clínica",
+      competenciasTecnicas: ["psm-at", "psm-edu", "psm-neu", "psm-pat", "psm-diag", "psm-int"],
+      competenciasTransversales: [
+        "Orientación al servicio, empatía y trato humano",
+        "Ética profesional y compromiso social salesiano",
+        "Resolución de problemas complejos y pensamiento crítico"
+      ],
+      idiomas: [{ idioma: "Inglés Técnico en Salud", nivel: "A2" }, { idioma: "Quechua", nivel: "Básico" }],
+      proyectos: [
+        {
+          titulo: "Evaluación Diagnóstica y Plan de Intervención Psicomotriz Individualizado",
+          materia: "PSM-412 Evaluación Diagnóstica II / PSM-421 Intervención Psicomotriz",
+          descripcion: "Aplicación de balance psicomotor (tono, equilibrio, lateralidad, esquema corporal, praxias), elaboración de informe clínico y sesiones de sala psicomotriz."
+        }
+      ],
+      pastoral: [
+        {
+          id: "past-misiones",
+          titulo: "Voluntariado Social y Misiones de Acción Solidaria USB",
+          horas: 120
+        }
+      ],
+      experiencias: [],
+      objetivoPostulacion: "Práctica Institucional / Trabajo Dirigido",
+      oportunidadId: "opp-psm-01",
+      entidadDestino: "Centro Integral de Rehabilitación San Juan de Dios"
     }
   ];
 
-  const stmt = db.prepare(`
+  const insertStmt = db.prepare(`
     INSERT INTO estudiantes (
       uuid, nombre_completo, email, password_hash, telefono, matricula,
       carrera_id, semestre, mencion, visibilidad, perfil_json, carpeta_ia_json,
@@ -169,29 +311,32 @@ function crearSemillaInicial() {
 
   const now = new Date().toISOString();
   for (const ej of ejemplos) {
-    generarCarpetaEmpleabilidadIA(ej).then((carpeta) => {
-      try {
-        stmt.run(
-          ej.uuid,
-          ej.nombreCompleto,
-          ej.email,
-          hashPassword("usb2026"),
-          ej.telefono,
-          ej.matricula,
-          ej.carreraId,
-          ej.semestre,
-          ej.mencion,
-          "activa",
-          JSON.stringify(ej),
-          JSON.stringify(carpeta),
-          1,
-          now,
-          now
-        );
-      } catch (_e) {
-        // Ignorar si ya existe
-      }
-    });
+    const existing = checkStmt.get(ej.email);
+    if (!existing) {
+      generarCarpetaEmpleabilidadIA(ej).then((carpeta) => {
+        try {
+          insertStmt.run(
+            ej.uuid,
+            ej.nombreCompleto,
+            ej.email,
+            hashPassword("usb2026"),
+            ej.telefono,
+            ej.matricula,
+            ej.carreraId,
+            ej.semestre,
+            ej.mencion,
+            "activa",
+            JSON.stringify(ej),
+            JSON.stringify(carpeta),
+            1,
+            now,
+            now
+          );
+        } catch (_e) {
+          // Ignorar si ya existe
+        }
+      });
+    }
   }
 }
 
