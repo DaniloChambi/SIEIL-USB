@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIEIL-USB | Plataforma de Empleabilidad e Intermediación Laboral — Universidad Salesiana de Bolivia</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <!-- Barra Institucional Superior (Oculta al imprimir PDF) -->
+  <header class="topbar no-print">
+    <div class="topbar-inner">
+      <div class="brand-block">
+        <img src="/logo-usb.jpg" alt="Universidad Salesiana de Bolivia" class="brand-logo">
+        <div class="brand-titles">
+          <span class="brand-eyebrow">UNIVERSIDAD SALESIANA DE BOLIVIA · R-1041</span>
+          <h1 class="brand-name">SIEIL-USB · Empleabilidad e Intermediación Laboral</h1>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="demo-switcher">
+          <label for="quick-demo-select" class="demo-label">Cargar ejemplo:</label>
+          <select id="quick-demo-select" name="quick_demo" class="demo-select">
+            <option value="">— Seleccionar perfil de prueba —</option>
+            <option value="camila.quispe@usalesiana.edu.bo">Ing. de Sistemas (9° Sem.)</option>
+            <option value="rodrigo.condori@usalesiana.edu.bo">Derecho (9° Sem.)</option>
+            <option value="valeria.vargas@usalesiana.edu.bo">Gastronomía (7° Sem.)</option>
+          </select>
+        </div>
+        <button type="button" id="btn-config-ia" class="btn-outline-sm" aria-expanded="false" aria-controls="panel-config-ia">
+          Motor IA: <strong id="badge-motor-ia">Activo</strong>
+        </button>
+      </div>
+    </div>
+
+    <!-- Panel desplegable opcional para configurar API Key de Gemini / OpenAI en vivo -->
+    <div id="panel-config-ia" class="config-ia-drawer" hidden>
+      <div class="config-ia-inner">
+        <div>
+          <strong>Configuración de Proveedor IA (Opcional para el Taller)</strong>
+          <p class="hint">El sistema incluye el Motor Experto Institucional de 0 ms sin llave externa. Si deseas conectar en vivo con <code>gemini-3.8-flash</code> o <code>gpt-4o-mini</code>, ingresa tu API Key:</p>
+        </div>
+        <div class="config-ia-controls">
+          <label for="input-api-key" class="visually-hidden">API Key de Gemini u OpenAI</label>
+          <input type="password" id="input-api-key" name="api_key" placeholder="AIzaSy... (Gemini) o sk-... (OpenAI)" autocomplete="off">
+          <button type="button" id="btn-save-apikey" class="btn-primary-sm">Guardar Llave</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navegación Principal de Vistas -->
+    <nav class="main-tabs" aria-label="Módulos del sistema">
+      <button type="button" class="tab-btn active" data-view="wizard">
+        1. Construye tu Perfil y CV (4 Pasos)
+      </button>
+      <button type="button" class="tab-btn" data-view="documentos">
+        2. Centro de Documentos (CV PDF + Carta + Entrevista)
+      </button>
+      <button type="button" class="tab-btn" data-view="bolsa">
+        3. Bolsa Segmentada y Brechas MOOC
+      </button>
+      <button type="button" class="tab-btn tab-btn-live" data-view="aulamagna">
+        4. Modo Aula Magna (En Vivo — Viernes 13 Nov)
+      </button>
+    </nav>
+  </header>
+
+  <!-- Banner de Contexto del Taller del Viernes 13 de Noviembre -->
+  <section class="workshop-banner no-print" aria-label="Información del Taller">
+    <div class="workshop-banner-inner">
+      <div>
+        <span class="workshop-pill">CONVERSATORIO-TALLER · VIERNES 13 DE NOVIEMBRE · 18:30 · AULA MAGNA</span>
+        <h2>«Construye tu primer currículum, descubre tus habilidades y prepárate para tu primera oportunidad laboral»</h2>
+      </div>
+      <div class="workshop-UUID-box" id="student-uuid-pill" hidden>
+        <span>Sello Digital USB:</span>
+        <a href="#" id="link-verify-uuid" target="_blank" rel="noopener">Verificación QR</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="app-container">
+    <!-- =================================================================== -->
+    <!-- VISTA 1: ASISTENTE INTERACTIVO (WIZARD DE 4 PASOS)                  -->
+    <!-- =================================================================== -->
+    <section id="view-wizard" class="app-view active">
+      <nav aria-label="Progreso de construcción de perfil" class="wizard-progress-nav no-print">
+        <ol class="progress-tracker" id="wizard-stepper">
+          <li class="step-item step-active" data-step="1" aria-current="step">
+            <span class="step-num">1</span>
+            <span class="step-label">Registro y Carrera USB</span>
+          </li>
+          <li class="step-item" data-step="2">
+            <span class="step-num">2</span>
+            <span class="step-label">Malla y Habilidades</span>
+          </li>
+          <li class="step-item" data-step="3">
+            <span class="step-num">3</span>
+            <span class="step-label">Proyectos y Pastoral</span>
+          </li>
+          <li class="step-item" data-step="4">
+            <span class="step-num">4</span>
+            <span class="step-label">Objetivo y Generación IA</span>
+          </li>
+        </ol>
+      </nav>
+
+      <form id="form-empleabilidad" action="/api/perfil/generar" method="POST" novalidate>
+        <div id="form-live-feedback" class="sr-alert" aria-live="polite" hidden></div>
+
+        <!-- PASO 1: DATOS PERSONALES Y CARRERA USB -->
+        <fieldset class="wizard-step active" data-step-panel="1">
+          <legend class="step-legend">Paso 1: Registro Estudiantil y Selección de Carrera USB</legend>
+          <p class="step-subtitle">Ingresa tus datos básicos. Al elegir tu carrera y semestre, el sistema mapeará automáticamente las asignaturas vencidas de tu malla curricular.</p>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="nombreCompleto">Nombre completo <span class="req">*</span></label>
+              <input type="text" id="nombreCompleto" name="nombreCompleto" autocomplete="name" enterkeyhint="next" required minlength="4" aria-describedby="help-nombre">
+              <span id="help-nombre" class="hint">Tal como aparecerá en tu Currículum Vitae y Carta de Presentación.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Correo electrónico <span class="req">*</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" enterkeyhint="next" required aria-describedby="help-email">
+              <span id="help-email" class="hint">Puedes usar tu correo institucional (<code>@usalesiana.edu.bo</code>) o personal.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="telefono">Teléfono móvil / WhatsApp</label>
+              <input type="tel" id="telefono" name="telefono" autocomplete="tel" inputmode="tel" enterkeyhint="next" placeholder="+591 70000000">
+            </div>
+
+            <div class="form-group">
+              <label for="matricula">Matrícula / Código USB (Opcional)</label>
+              <input type="text" id="matricula" name="matricula" enterkeyhint="next" placeholder="Ej. USB-2022041">
+            </div>
+
+            <div class="form-group">
+              <label for="carreraId">Carrera en la Universidad Salesiana de Bolivia <span class="req">*</span></label>
+              <select id="carreraId" name="carreraId" required aria-describedby="help-carrera">
+                <!-- Se puebla dinámicamente con las 7 carreras de /Mallas -->
+              </select>
+              <span id="help-carrera" class="hint">Basado en los pensums oficiales de las 7 carreras participantes.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="semestre">Semestre actual o estado de egreso <span class="req">*</span></label>
+              <select id="semestre" name="semestre" required aria-describedby="help-semestre">
+                <!-- Se actualiza según la duración de la carrera (8, 9 o 10 semestres) -->
+              </select>
+              <span id="help-semestre" class="hint">Precarga las competencias de los semestres ya cursados.</span>
+            </div>
+
+            <div class="form-group form-col-full">
+              <label for="mencion">Área de interés o especialidad destacada</label>
+              <input type="text" id="mencion" name="mencion" enterkeyhint="next" placeholder="Ej. Desarrollo de Software e IA / Auditoría Tributaria / Alta Repostería / Atención Temprana">
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <div></div>
+            <button type="button" class="btn-primary btn-next-step" data-next="2" enterkeyhint="next">
+              Siguiente: Descubrir mis Habilidades →
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- PASO 2: DESCUBRE TUS HABILIDADES Y MALLA CURRICULAR -->
+        <fieldset class="wizard-step" data-step-panel="2" hidden>
+          <legend class="step-legend">Paso 2: Identifica y Presenta tus Habilidades (Taxonomía ESCO + Pensum USB)</legend>
+          <p class="step-subtitle">Hemos preseleccionado las competencias técnicas que corresponden a las materias que ya cursaste según tu malla curricular. Toca para marcar o desmarcar:</p>
+
+          <div class="malla-summary-card">
+            <div class="malla-summary-info">
+              <h3 id="malla-career-title">Pensum Oficial de la Carrera</h3>
+              <p id="malla-career-stats">Materias cursadas según tu semestre:</p>
+            </div>
+            <button type="button" id="btn-toggle-malla-img" class="btn-outline-sm" aria-expanded="false" aria-controls="malla-preview-container">
+              Ver Malla Curricular Oficial
+            </button>
+          </div>
+
+          <div id="malla-preview-container" class="malla-image-box" hidden>
+            <img id="malla-img-preview" src="/Mallas/ingenieria-de-sistemas.png" alt="Pensum Oficial de la Carrera" loading="lazy">
+            <div id="malla-materias-tags" class="materias-tags-list"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="group-title-label">Competencias Técnicas de tu Carrera (Duras / Hard Skills)</label>
+            <span class="hint">Selecciona las competencias que dominas (se incluirán en tu CV optimizado para ATS):</span>
+            <div id="chips-competencias-tecnicas" class="chips-grid" role="group" aria-label="Competencias técnicas de la carrera">
+              <!-- Chips de competencias con checkboxes accesibles -->
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="group-title-label">Habilidades Transversales y Socioemocionales (Soft Skills)</label>
+            <div id="chips-competencias-transversales" class="chips-grid" role="group" aria-label="Competencias transversales">
+              <!-- Chips transversales -->
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="idiomaPrincipal">Idiomas adicionales / Lenguas nativas</label>
+              <input type="text" id="idiomaPrincipal" name="idiomaPrincipal" placeholder="Ej. Inglés Técnico B1, Aymara Básico, Portugués">
+              <span class="hint">Marco Común Europeo (A1–C2) o lenguas originarias reconocidas en Bolivia.</span>
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <button type="button" class="btn-secondary btn-prev-step" data-prev="1" enterkeyhint="previous">
+              ← Anterior
+            </button>
+            <button type="button" class="btn-primary btn-next-step" data-next="3" enterkeyhint="next">
+              Siguiente: Proyectos y Pastoral (Sin Experiencia) →
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- PASO 3: TU PRIMER CV INCLUSO SIN EXPERIENCIA (PROYECTOS DE AULA + PASTORAL LEY 342) -->
+        <fieldset class="wizard-step" data-step-panel="3" hidden>
+          <legend class="step-legend">Paso 3: «Tu Primer Currículum, Incluso Sin Experiencia»</legend>
+          <p class="step-subtitle">¿Aún no tienes experiencia laboral formal? ¡No te preocupes! Tus <strong>proyectos académicos de semestre</strong> y tu participación en <strong>Pastoral / Asociacionismo Salesiano (Ley N° 342)</strong> son tu mejor carta de presentación.</p>
+
+          <div class="template-picker-box">
+            <div class="template-picker-header">
+              <strong>Plantillas Rápidas de Proyectos de tu Carrera:</strong>
+              <span class="hint">Toca una plantilla para cargarla y adáptala a lo que hiciste en clases:</span>
+            </div>
+            <div id="suggested-projects-buttons" class="template-buttons-row"></div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="proy1Titulo">Título de tu Proyecto Académico o de Semestre <span class="req">*</span></label>
+              <input type="text" id="proy1Titulo" name="proy1Titulo" required placeholder="Ej. Sistema Web Contable / Auditoría Tributaria / Estandarización de Menú">
+            </div>
+
+            <div class="form-group">
+              <label for="proy1Materia">Asignatura o Semestre donde lo realizaste</label>
+              <input type="text" id="proy1Materia" name="proy1Materia" placeholder="Ej. ING-411 Proyecto de Software / 7° Semestre">
+            </div>
+
+            <div class="form-group form-col-full">
+              <label for="proy1Desc">¿Qué hiciste o qué lograste en este proyecto? (En tus propias palabras)</label>
+              <div class="growable-textarea" data-replicated-value="">
+                <textarea id="proy1Desc" name="proy1Desc" rows="3" aria-describedby="help-proy1" placeholder="Escribe brevemente qué herramientas usaste y qué problema resolviste. El motor de IA lo transformará en logros ejecutivos para tu CV."></textarea>
+              </div>
+              <span id="help-proy1" class="hint">El motor de IA redactará viñetas de alto impacto con verbos de acción a partir de esta descripción.</span>
+            </div>
+          </div>
+
+          <hr class="section-divider">
+
+          <div class="form-group">
+            <label class="group-title-label">Pastoral Universitaria, Oratorio y Asociacionismo Salesiano (Ley N° 342 Art. 28)</label>
+            <span class="hint">En Bolivia, la Ley N° 342 de la Juventud y el DS N° 2114 reconocen el voluntariado y liderazgo juvenil certificado como experiencia previa válida:</span>
+            <div id="pastoral-options-grid" class="pastoral-cards-grid">
+              <!-- Tarjetas seleccionables de Pastoral -->
+            </div>
+          </div>
+
+          <hr class="section-divider">
+
+          <div class="form-group">
+            <label class="group-title-label">Experiencia Laboral o Pasantía Previa (Opcional — solo si ya trabajaste)</label>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="expCargo">Cargo o Rol desempeñado</label>
+                <input type="text" id="expCargo" name="expCargo" autocomplete="organization-title" placeholder="Ej. Pasante de Sistemas / Auxiliar Contable / Ayudante de Cocina">
+              </div>
+              <div class="form-group">
+                <label for="expInstitucion">Empresa o Institución y Periodo</label>
+                <input type="text" id="expInstitucion" name="expInstitucion" placeholder="Ej. Consultora Andina (Feb 2026 – Jul 2026)">
+              </div>
+              <div class="form-group form-col-full">
+                <label for="expLogros">Funciones principales realizadas (Opcional)</label>
+                <div class="growable-textarea" data-replicated-value="">
+                  <textarea id="expLogros" name="expLogros" rows="2" placeholder="Describe brevemente tus tareas principales..."></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <button type="button" class="btn-secondary btn-prev-step" data-prev="2" enterkeyhint="previous">
+              ← Anterior
+            </button>
+            <button type="button" class="btn-primary btn-next-step" data-next="4" enterkeyhint="next">
+              Siguiente: Objetivo y Generación con IA →
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- PASO 4: OBJETIVO DE POSTULACIÓN Y GENERACIÓN CON IA -->
+        <fieldset class="wizard-step" data-step-panel="4" hidden>
+          <legend class="step-legend">Paso 4: Personaliza tu Objetivo y Genera tu Carpeta Profesional con IA</legend>
+          <p class="step-subtitle">Selecciona la modalidad a la que deseas postular. El sistema adaptará tu <strong>CV (con código QR verificable)</strong>, tu <strong>Carta de Presentación</strong> y tu <strong>Simulador de Entrevista</strong>.</p>
+
+          <div class="form-group">
+            <label class="group-title-label">Modalidad de Oportunidad Objetivo</label>
+            <div class="radio-cards-grid" role="radiogroup" aria-label="Modalidad de postulación">
+              <label class="radio-card" for="obj-pasantia">
+                <input type="radio" id="obj-pasantia" name="objetivoPostulacion" value="Primera Pasantía Preprofesional" checked>
+                <div>
+                  <strong>1. Primera Pasantía Preprofesional</strong>
+                  <span>Ideal para estudiantes de 5° a 8° semestre que buscan su primera experiencia práctica.</span>
+                </div>
+              </label>
+
+              <label class="radio-card" for="obj-td">
+                <input type="radio" id="obj-td" name="objetivoPostulacion" value="Trabajo Dirigido (Modalidad de Graduación)">
+                <div>
+                  <strong>2. Trabajo Dirigido (Graduación USB)</strong>
+                  <span>Para estudiantes de últimos semestres o egresados en entidades con convenio vigente.</span>
+                </div>
+              </label>
+
+              <label class="radio-card" for="obj-junior">
+                <input type="radio" id="obj-junior" name="objetivoPostulacion" value="Empleo Formal Junior / Consultoría">
+                <div>
+                  <strong>3. Empleo Formal Junior / Titulados</strong>
+                  <span>Inserción laboral directa en empresas privadas, instituciones públicas u ONGs.</span>
+                </div>
+              </label>
+
+              <label class="radio-card" for="obj-beca">
+                <input type="radio" id="obj-beca" name="objetivoPostulacion" value="Postulación a Beca o Programa de Investigación">
+                <div>
+                  <strong>4. Beca Académica / Investigación</strong>
+                  <span>Enfoque en excelencia académica, liderazgo estudiantil y proyección social.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="oportunidadId">Vincular con una Oportunidad en Convenio (Opcional)</label>
+              <select id="oportunidadId" name="oportunidadId">
+                <!-- Se carga con las ofertas de OPORTUNIDADES_DEMO -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="entidadDestino">O escribe el nombre de la Empresa / Institución destino</label>
+              <input type="text" id="entidadDestino" name="entidadDestino" placeholder="Ej. Banco Unión / Ministerio de Educación / CBN">
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <button type="button" class="btn-secondary btn-prev-step" data-prev="3" enterkeyhint="previous">
+              ← Anterior
+            </button>
+            <button type="submit" id="btn-submit-generar" class="btn-generate-hero" enterkeyhint="done">
+              ✨ Generar mi CV, Carta de Presentación y Guía de Entrevista
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VISTA 2: CENTRO DE DOCUMENTOS (CV PDF + CARTA + ENTREVISTA STAR)    -->
+    <!-- =================================================================== -->
+    <section id="view-documentos" class="app-view" hidden>
+      <div class="docs-toolbar no-print">
+        <div class="docs-subtabs" role="tablist" aria-label="Salidas documentales">
+          <button type="button" class="doc-subtab active" data-doc="cv-formal">
+            Salida 1: CV Institucional USB (Con QR)
+          </button>
+          <button type="button" class="doc-subtab" data-doc="cv-ats">
+            Salida 2: CV Limpio Optimizado ATS
+          </button>
+          <button type="button" class="doc-subtab" data-doc="carta">
+            Salida 3: Carta de Presentación y Motivación
+          </button>
+          <button type="button" class="doc-subtab" data-doc="entrevista">
+            Salida 4: Simulador de Entrevista (STAR)
+          </button>
+        </div>
+
+        <div class="docs-actions">
+          <button type="button" id="btn-print-pdf" class="btn-primary">
+            🖨️ Descargar / Imprimir en PDF
+          </button>
+          <button type="button" id="btn-copy-doc" class="btn-secondary">
+            📋 Copiar Texto
+          </button>
+        </div>
+      </div>
+
+      <p class="provider-meta no-print" id="doc-provider-meta">
+        Documento generado con verificación criptográfica QR de la Universidad Salesiana de Bolivia.
+      </p>
+
+      <!-- SALIDA 1 y 2: HOJA DE CURRÍCULUM VITAE (FORMAL CON QR / ATS) -->
+      <article id="doc-panel-cv" class="printable-sheet cv-sheet">
+        <header class="cv-header">
+          <div class="cv-header-left">
+            <div class="cv-inst-badge" id="cv-inst-header">
+              <img src="/logo-usb.jpg" alt="Logo USB" class="cv-logo">
+              <span>UNIVERSIDAD SALESIANA DE BOLIVIA · PERFIL VERIFICADO SIEIL-USB</span>
+            </div>
+            <h2 id="cv-nombre">Nombre del Estudiante</h2>
+            <p id="cv-titulo-carrera" class="cv-career-line">Carrera — Semestre</p>
+            <p id="cv-contacto" class="cv-contact-line">La Paz, Bolivia · correo@usalesiana.edu.bo · +591 70000000</p>
+          </div>
+          <div class="cv-qr-container" id="cv-qr-box">
+            <div id="cv-qr-svg"></div>
+            <span class="cv-qr-caption">Verificar autenticidad</span>
+            <code id="cv-uuid-code">usb-2026</code>
+          </div>
+        </header>
+
+        <section class="cv-section">
+          <h3 class="cv-section-title">Perfil Profesional</h3>
+          <p id="cv-resumen" class="cv-body-text"></p>
+        </section>
+
+        <section class="cv-section">
+          <h3 class="cv-section-title">Formación Académica Universitaria</h3>
+          <div class="cv-item">
+            <div class="cv-item-header">
+              <strong id="cv-edu-carrera">Carrera Universitaria</strong>
+              <span id="cv-edu-semestre">Universidad Salesiana de Bolivia (La Paz, Bolivia)</span>
+            </div>
+            <p id="cv-edu-mencion" class="cv-item-sub"></p>
+            <p id="cv-edu-materias" class="cv-body-text cv-small-note"></p>
+          </div>
+        </section>
+
+        <section class="cv-section">
+          <h3 class="cv-section-title">Proyectos Académicos Aplicados y Experiencia Preprofesional</h3>
+          <div id="cv-proyectos-list"></div>
+        </section>
+
+        <section class="cv-section" id="cv-pastoral-section">
+          <h3 class="cv-section-title">Liderazgo Juvenil, Pastoral y Compromiso Social (Ley N° 342 Art. 28)</h3>
+          <div id="cv-pastoral-list"></div>
+        </section>
+
+        <section class="cv-section">
+          <h3 class="cv-section-title">Competencias Técnicas (Taxonomía ESCO) y Habilidades</h3>
+          <div class="cv-skills-block">
+            <p><strong>Competencias Técnicas de Especialidad:</strong> <span id="cv-skills-tecnicas"></span></p>
+            <p><strong>Competencias Transversales:</strong> <span id="cv-skills-transversales"></span></p>
+            <p><strong>Idiomas:</strong> <span id="cv-skills-idiomas"></span></p>
+          </div>
+        </section>
+
+        <footer class="cv-footer">
+          <span>Documento generado por el Sistema de Información, Empleabilidad e Intermediación Laboral (SIEIL-USB).</span>
+          <span id="cv-verify-url-text"></span>
+        </footer>
+      </article>
+
+      <!-- SALIDA 3: HOJA DE CARTA DE PRESENTACIÓN Y MOTIVACIÓN -->
+      <article id="doc-panel-carta" class="printable-sheet letter-sheet" hidden>
+        <header class="letter-header">
+          <img src="/logo-usb.jpg" alt="Logo USB" class="cv-logo">
+          <div class="letter-date-place">
+            <p>La Paz, Bolivia — Noviembre de 2026</p>
+            <p class="letter-ref" id="carta-uuid-ref">Ref. Verificación USB</p>
+          </div>
+        </header>
+
+        <div class="letter-recipient" id="carta-destinatario"></div>
+        <div class="letter-subject" id="carta-asunto"></div>
+        <div class="letter-body" id="carta-cuerpo"></div>
+        <div class="letter-signature" id="carta-despedida"></div>
+      </article>
+
+      <!-- SALIDA 4: ENTRENADOR Y SIMULADOR DE ENTREVISTA (MÉTODO STAR) -->
+      <article id="doc-panel-entrevista" class="printable-sheet interview-sheet" hidden>
+        <header class="interview-header">
+          <h2>Guía Personalizada de Preparación para Entrevista Laboral (Método STAR)</h2>
+          <p>Argumentos clave basados en tu malla curricular de la Universidad Salesiana de Bolivia y tus proyectos registrados:</p>
+        </header>
+        <div id="entrevista-questions-list" class="interview-cards-list"></div>
+      </article>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VISTA 3: BOLSA SEGMENTADA DE OPORTUNIDADES Y CIERRE DE BRECHAS MOOC -->
+    <!-- =================================================================== -->
+    <section id="view-bolsa" class="app-view" hidden>
+      <div class="section-header-block">
+        <div>
+          <h2>Bolsa Segmentada de Oportunidades y Emparejamiento Algorítmico</h2>
+          <p>Fórmula multicriterio de compatibilidad: <code>IC = 0.45(CT) + 0.25(RA) + 0.15(CTR) + 0.15(PE)</code> con detección automática de brechas y derivación a <strong>mooc.usalesiana.online</strong>.</p>
+        </div>
+      </div>
+
+      <div id="bolsa-cards-container" class="bolsa-grid">
+        <!-- Se puebla dinámicamente con el índice de compatibilidad y cursos MOOC -->
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VISTA 4: MODO AULA MAGNA (TABLERO EN VIVO — VIERNES 13 DE NOVIEMBRE)-->
+    <!-- =================================================================== -->
+    <section id="view-aulamagna" class="app-view" hidden>
+      <div class="live-hero-grid">
+        <div class="live-qr-panel">
+          <span class="live-tag">🔴 EN VIVO · AULA MAGNA USB</span>
+          <h2>Escanea para crear tu primer CV con IA</h2>
+          <p>Ingresa desde tu teléfono móvil, selecciona tu carrera y descarga tu Currículum Vitae + Carta de Presentación en menos de 3 minutos.</p>
+          <div id="live-qr-container" class="live-qr-svg-wrap"></div>
+          <code id="live-url-code" class="live-url-pill">http://localhost:3000</code>
+        </div>
+
+        <div class="live-metrics-panel">
+          <div class="kpi-cards-row">
+            <div class="kpi-card">
+              <span class="kpi-label">Estudiantes Registrados</span>
+              <strong class="kpi-value" id="kpi-total-estudiantes">0</strong>
+              <span class="kpi-sub">Perfiles verificados en SIEIL-USB</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-label">CVs y Cartas Generadas</span>
+              <strong class="kpi-value" id="kpi-total-cvs">0</strong>
+              <span class="kpi-sub">Documentos optimizados para ATS</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-label">Certificación Pastoral (Ley 342)</span>
+              <strong class="kpi-value" id="kpi-total-pastoral">0</strong>
+              <span class="kpi-sub">Oratorio y Asociacionismo Salesiano</span>
+            </div>
+          </div>
+
+          <div class="live-columns-2">
+            <div class="live-box">
+              <h3>Participación por Carrera USB (7 Mallas)</h3>
+              <div id="live-carreras-bars" class="career-bars-list"></div>
+            </div>
+
+            <div class="live-box">
+              <h3>Top Competencias Técnicas (Taxonomía ESCO)</h3>
+              <div id="live-top-skills" class="top-skills-list"></div>
+
+              <h3 class="mt-title">Últimos Perfiles Verificados con QR</h3>
+              <div id="live-recent-list" class="recent-students-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

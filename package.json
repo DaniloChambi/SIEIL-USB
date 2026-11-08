@@ -1,0 +1,14 @@
+{
+  "name": "sieil-usb-mvp",
+  "version": "1.0.0",
+  "description": "Sistema de Información, Empleabilidad e Intermediación Laboral Universitaria (SIEIL-USB) — MVP Taller Viernes 13 de Noviembre",
+  "type": "module",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}
