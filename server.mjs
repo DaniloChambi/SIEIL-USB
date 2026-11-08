@@ -53,13 +53,15 @@ function hashPassword(password) {
 }
 
 function crearSemillaInicial() {
-  const checkStmt = db.prepare("SELECT id FROM estudiantes WHERE email = ?");
+  const checkStmt = db.prepare("SELECT id, perfil_json FROM estudiantes WHERE email = ?");
+  const updateStmt = db.prepare("UPDATE estudiantes SET perfil_json = ? WHERE id = ?");
 
   const ejemplos = [
     {
       uuid: "usb-2026-sis-8901",
       nombreCompleto: "Camila Alejandra Quispe Mamani",
       email: "camila.quispe@usalesiana.edu.bo",
+      fotoDataUrl: "/avatars/avatar-sis.svg",
       telefono: "+591 71548290",
       matricula: "USB-SIS-2022041",
       carreraId: "ingenieria-de-sistemas",
@@ -95,6 +97,7 @@ function crearSemillaInicial() {
       uuid: "usb-2026-der-4412",
       nombreCompleto: "Rodrigo Mauricio Condori Flores",
       email: "rodrigo.condori@usalesiana.edu.bo",
+      fotoDataUrl: "/avatars/avatar-der.svg",
       telefono: "+591 72091834",
       matricula: "USB-DER-2022118",
       carreraId: "derecho",
@@ -129,6 +132,7 @@ function crearSemillaInicial() {
       uuid: "usb-2026-con-5120",
       nombreCompleto: "Carla Paola Gutiérrez Mendoza",
       email: "carla.gutierrez@usalesiana.edu.bo",
+      fotoDataUrl: "/avatars/avatar-con.svg",
       telefono: "+591 73045612",
       matricula: "USB-CON-2022089",
       carreraId: "contaduria-publica",
@@ -164,6 +168,7 @@ function crearSemillaInicial() {
       uuid: "usb-2026-gas-3319",
       nombreCompleto: "Valeria Fernanda Vargas Torrez",
       email: "valeria.vargas@usalesiana.edu.bo",
+      fotoDataUrl: "/avatars/avatar-gas.svg",
       telefono: "+591 76512098",
       matricula: "USB-GAS-2023015",
       carreraId: "gastronomia",
@@ -198,6 +203,7 @@ function crearSemillaInicial() {
       uuid: "usb-2026-ico-6743",
       nombreCompleto: "Mateo Sebastián Alarcón Pinto",
       email: "mateo.alarcon@usalesiana.edu.bo",
+      fotoDataUrl: "/avatars/avatar-ico.svg",
       telefono: "+591 77289014",
       matricula: "USB-ICO-2022033",
       carreraId: "ingenieria-comercial",
@@ -233,6 +239,7 @@ function crearSemillaInicial() {
       uuid: "usb-2026-edu-2895",
       nombreCompleto: "Luciana Belén Morales Choque",
       email: "luciana.morales@usalesiana.edu.bo",
+      fotoDataUrl: "/avatars/avatar-edu.svg",
       telefono: "+591 78934521",
       matricula: "USB-EDU-2022067",
       carreraId: "ciencias-de-la-educacion",
@@ -268,6 +275,7 @@ function crearSemillaInicial() {
       uuid: "usb-2026-psm-7134",
       nombreCompleto: "Fabricio André Mamani Ramos",
       email: "fabricio.mamani@usalesiana.edu.bo",
+      fotoDataUrl: "/avatars/avatar-psm.svg",
       telefono: "+591 75218943",
       matricula: "USB-PSM-2022019",
       carreraId: "psicomotricidad",
@@ -336,6 +344,15 @@ function crearSemillaInicial() {
           // Ignorar si ya existe
         }
       });
+    } else {
+      // Actualizar foto y perfil si el registro anterior carecía de fotografía
+      try {
+        const perf = JSON.parse(existing.perfil_json || "{}");
+        if (!perf.fotoDataUrl && ej.fotoDataUrl) {
+          perf.fotoDataUrl = ej.fotoDataUrl;
+          updateStmt.run(JSON.stringify(perf), existing.id);
+        }
+      } catch (_e) {}
     }
   }
 }

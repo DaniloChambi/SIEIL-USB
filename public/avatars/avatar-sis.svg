@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 360" width="300" height="360">
+  <defs>
+    <linearGradient id="bg-sis" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dbeafe"/>
+      <stop offset="100%" stop-color="#93c5fd"/>
+    </linearGradient>
+    <linearGradient id="skin-sis" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f6d5be"/>
+      <stop offset="100%" stop-color="#dfb295"/>
+    </linearGradient>
+    <linearGradient id="jacket-sis" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <filter id="shadow-sis" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Fondo de estudio formal -->
+  <rect width="300" height="360" fill="url(#bg-sis)" rx="12"/>
+  <circle cx="150" cy="140" r="110" fill="#ffffff" opacity="0.18"/>
+
+  <!-- Pelo trasero si es largo -->
+  <path d="M 85 120 C 80 180 75 250 80 270 C 95 275 110 250 110 220 L 190 220 C 190 250 205 275 220 270 C 225 250 220 180 215 120 Z" fill="#1e1b18"/>
+  
+
+  <!-- Cuello y hombros base -->
+  <path d="M 125 185 L 125 230 Q 150 245 175 230 L 175 185 Z" fill="url(#skin-sis)"/>
+  <!-- Sombra cuello -->
+  <path d="M 125 195 Q 150 215 175 195 Q 150 225 125 195 Z" fill="#dfb295" opacity="0.6"/>
+
+  <!-- Ropa según profesión -->
+  
+
+  
+    <!-- Blazer formal femenino -->
+    <path d="M 40 360 C 45 280 85 245 125 235 L 175 235 C 215 245 255 280 260 360 Z" fill="url(#jacket-sis)"/>
+    <!-- Blusa / Top interior -->
+    <path d="M 125 235 Q 150 280 175 235 L 185 360 L 115 360 Z" fill="#ffffff"/>
+    <!-- Collar elegante -->
+    <circle cx="150" cy="245" r="4" fill="#fbbf24"/>
+    <!-- Solapas blazer estilizadas -->
+    <path d="M 70 360 L 125 240 L 145 320 L 80 360 Z" fill="#1e3a8a" filter="url(#shadow-sis)"/>
+    <path d="M 230 360 L 175 240 L 155 320 L 220 360 Z" fill="#1e3a8a" filter="url(#shadow-sis)"/>
+  
+
+  
+
+  
+
+  
+
+  <!-- Cabeza y rostro -->
+  <!-- Orejas -->
+  <ellipse cx="94" cy="148" rx="10" ry="16" fill="url(#skin-sis)"/>
+  <ellipse cx="94" cy="148" rx="6" ry="10" fill="#dfb295"/>
+  <ellipse cx="206" cy="148" rx="10" ry="16" fill="url(#skin-sis)"/>
+  <ellipse cx="206" cy="148" rx="6" ry="10" fill="#dfb295"/>
+
+  <!-- Forma del rostro -->
+  <path d="M 98 120 C 98 75 202 75 202 120 C 202 165 185 198 150 198 C 115 198 98 165 98 120 Z" fill="url(#skin-sis)" filter="url(#shadow-sis)"/>
+
+  <!-- Ojos -->
+  <ellipse cx="128" cy="142" rx="7" ry="5" fill="#ffffff"/>
+  <circle cx="128" cy="142" r="3.8" fill="#331c12"/>
+  <circle cx="126.5" cy="140.5" r="1.3" fill="#ffffff"/>
+
+  <ellipse cx="172" cy="142" rx="7" ry="5" fill="#ffffff"/>
+  <circle cx="172" cy="142" r="3.8" fill="#331c12"/>
+  <circle cx="170.5" cy="140.5" r="1.3" fill="#ffffff"/>
+
+  <!-- Cejas -->
+  <path d="M 118 132 Q 128 128 138 131" stroke="#1e1b18" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M 162 131 Q 172 128 182 132" stroke="#1e1b18" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+  <!-- Nariz sutil -->
+  <path d="M 150 142 L 148 158 Q 150 162 154 160" stroke="#dfb295" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+  <!-- Sonrisa profesional -->
+  <path d="M 136 172 Q 150 183 164 172" stroke="#991b1b" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <path d="M 140 173 Q 150 178 160 173" stroke="#ffffff" stroke-width="2" fill="none"/>
+
+  <!-- Gafas si aplica -->
+  
+
+  <!-- Cabello frontal superior -->
+  
+
+  
+    <!-- Cabello femenino estilizado profesional -->
+    <path d="M 95 115 C 95 62 130 52 155 52 C 180 52 205 65 205 115 C 190 85 170 82 150 82 C 130 82 110 88 95 115 Z" fill="#1e1b18"/>
+    <path d="M 96 115 Q 92 145 92 180 Q 102 145 106 125 Z" fill="#1e1b18"/>
+    <path d="M 204 115 Q 208 145 208 180 Q 198 145 194 125 Z" fill="#1e1b18"/>
+  
+
+  
+
+  
+
+  
+</svg>
