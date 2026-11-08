@@ -1,4 +1,4 @@
-// Catálogo Oficial de Mallas Curriculares, Taxonomía ESCO y Oportunidades - SIEIL-USB
+// Catálogo Oficial de Mallas Curriculares, Taxonomía ESCO y Oportunidades - PEIL-USB
 // Generado a partir de los pensums oficiales de las 7 carreras participantes de la Universidad Salesiana de Bolivia
 
 export const CARRERAS_USB = [

@@ -1,4 +1,4 @@
-// Servidor Principal del MVP - Sistema de Información, Empleabilidad e Intermediación Laboral (SIEIL-USB)
+// Servidor Principal del MVP - Plataforma de Empleabilidad e Intermediación Laboral (PEIL-USB)
 // Universidad Salesiana de Bolivia — Taller Viernes 13 de Noviembre (Aula Magna)
 
 import http from "node:http";
@@ -379,14 +379,14 @@ function renderPaginaVerificacionHTML(row, originUrl) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Verificación Institucional — SIEIL-USB</title>
+  <title>Verificación Institucional — PEIL-USB</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="verify-page-body">
   <main class="verify-card verify-invalid">
     <h1>Código de Verificación No Encontrado</h1>
-    <p>El identificador consultado no corresponde a un documento activo en el Sistema de Información, Empleabilidad e Intermediación Laboral (SIEIL-USB).</p>
-    <a href="/" class="btn-primary">Ir a la Plataforma SIEIL-USB</a>
+    <p>El identificador consultado no corresponde a un documento activo en la Plataforma de Empleabilidad e Intermediación Laboral (PEIL-USB).</p>
+    <a href="/" class="btn-primary">Ir a la Plataforma PEIL-USB</a>
   </main>
 </body>
 </html>`;
@@ -417,7 +417,7 @@ function renderPaginaVerificacionHTML(row, originUrl) {
     <header class="verify-header">
       <img src="/logo-usb.jpg" alt="Logo Universidad Salesiana de Bolivia" class="verify-logo">
       <div class="verify-badge-ok">
-        <span class="verify-dot"></span> PERFIL VERIFICADO POR SIEIL-USB
+        <span class="verify-dot"></span> PERFIL VERIFICADO POR PEIL-USB
       </div>
     </header>
 
@@ -469,8 +469,8 @@ function renderPaginaVerificacionHTML(row, originUrl) {
     </section>
 
     <footer class="verify-footer">
-      <p>Documento verificado en línea por el Sistema de Información, Empleabilidad e Intermediación Laboral (SIEIL-USB) — Universidad Salesiana de Bolivia.</p>
-      <a href="/" class="btn-secondary">Volver al Portal de Empleabilidad SIEIL-USB</a>
+      <p>Documento verificado en línea por la Plataforma de Empleabilidad e Intermediación Laboral (PEIL-USB) — Universidad Salesiana de Bolivia.</p>
+      <a href="/" class="btn-secondary">Volver a la Plataforma PEIL-USB</a>
     </footer>
   </main>
 </body>
@@ -835,5 +835,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`✅ Plataforma SIEIL-USB (MVP Taller 13 Nov) activa en: http://localhost:${PORT}`);
+  console.log(`✅ Plataforma PEIL-USB (MVP Taller 13 Nov) activa en: http://localhost:${PORT}`);
 });

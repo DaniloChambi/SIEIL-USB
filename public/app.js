@@ -1,4 +1,4 @@
-// Cliente Frontend del MVP - SIEIL-USB (Universidad Salesiana de Bolivia)
+// Cliente Frontend del MVP - PEIL-USB (Universidad Salesiana de Bolivia)
 // Cumple estándares de accesibilidad, formularios adaptativos y generación PDF
 
 const state = {
@@ -393,7 +393,7 @@ function renderizarCarpetaGenerada(data) {
   linkUuid.textContent = `${uuid} (Verificar QR)`;
 
   document.getElementById("doc-provider-meta").innerHTML =
-    `Generado por: <strong>${carpetaIA.proveedorUsado || "Motor IA SIEIL-USB"}</strong> · Código Único de Verificación: <a href="/verificar/${uuid}" target="_blank" rel="noopener"><code>${uuid}</code></a>`;
+    `Generado por: <strong>${carpetaIA.proveedorUsado || "Motor IA PEIL-USB"}</strong> · Código Único de Verificación: <a href="/verificar/${uuid}" target="_blank" rel="noopener"><code>${uuid}</code></a>`;
 
   // 1. Renderizar CV y Fotografía Formal
   const cvFotoWrap = document.getElementById("cv-foto-wrap");

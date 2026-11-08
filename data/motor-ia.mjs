@@ -1,4 +1,4 @@
-// Motor de Empleabilidad Asistido por IA y Emparejamiento Multicriterio - SIEIL-USB
+// Motor de Empleabilidad Asistido por IA y Emparejamiento Multicriterio - PEIL-USB
 // Soporta:
 // 1. Google Gemini API (gemini-3.8-flash — Interactions API con Structured Output JSON)
 // 2. OpenAI API (gpt-4o-mini — Structured Outputs json_schema)
@@ -231,7 +231,7 @@ function construirMotorExpertoDeterminista(perfil, carrera, oportunidadObjetivo)
   ];
 
   return {
-    proveedorUsado: "Motor Experto Institucional SIEIL-USB (Plantilla Curricular Determinista)",
+    proveedorUsado: "Motor Experto Institucional PEIL-USB (Plantilla Curricular Determinista)",
     resumenProfesional,
     proyectosMejorados,
     cartaPresentacion,
@@ -260,7 +260,7 @@ export async function generarCarpetaEmpleabilidadIA(perfil, apiKeyOverride = "")
     return found ? found.nombre : id;
   });
 
-  const promptContexto = `Eres el Motor Oficial de Empleabilidad e Intermediación Laboral de la Universidad Salesiana de Bolivia (SIEIL-USB).
+  const promptContexto = `Eres el Motor Oficial de la Plataforma de Empleabilidad e Intermediación Laboral de la Universidad Salesiana de Bolivia (PEIL-USB).
 REGLA ESTRICTA ANTI-ALUCINACIÓN: Usa ÚNICAMENTE los datos reales del estudiante provistos en el siguiente JSON. NO inventes títulos, empresas ni fechas que no estén en el contexto. Transforma sus proyectos de aula, prácticas y actividades de Pastoral Universitaria (reconocidas bajo el Art. 28 de la Ley N° 342 de la Juventud en Bolivia) en logros profesionales de alto impacto usando verbos de acción en español formal boliviano.
 
 DATOS VERIFICADOS DEL ESTUDIANTE:

@@ -1,4 +1,4 @@
-# SIEIL-USB (Sistema de Información, Empleabilidad e Intermediación Laboral)
+# PEIL-USB (Plataforma de Empleabilidad e Intermediación Laboral)
 **Universidad Salesiana de Bolivia — Propuesta R-1041**
 
 Plataforma institucional de empleabilidad para estudiantes y titulados de la USB. Permite registrarse, estructurar competencias técnicas según el pensum oficial y taxonomía ESCO, reconocer actividades pastorales al amparo del Art. 28 de la Ley N° 342, y generar automáticamente:
