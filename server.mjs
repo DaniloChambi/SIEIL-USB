@@ -63,7 +63,7 @@ function crearSemillaInicial() {
       email: "camila.quispe@usalesiana.edu.bo",
       fotoDataUrl: "/avatars/avatar-sis.svg",
       telefono: "+591 71548290",
-      matricula: "USB-SIS-2022041",
+      matricula: "RU-2022041",
       carreraId: "ingenieria-de-sistemas",
       semestre: 9,
       mencion: "Ingeniería de Software e Inteligencia Artificial",
@@ -99,7 +99,7 @@ function crearSemillaInicial() {
       email: "rodrigo.condori@usalesiana.edu.bo",
       fotoDataUrl: "/avatars/avatar-der.svg",
       telefono: "+591 72091834",
-      matricula: "USB-DER-2022118",
+      matricula: "RU-2022118",
       carreraId: "derecho",
       semestre: 9,
       mencion: "Derecho Corporativo, Administrativo y Constitucional",
@@ -134,7 +134,7 @@ function crearSemillaInicial() {
       email: "carla.gutierrez@usalesiana.edu.bo",
       fotoDataUrl: "/avatars/avatar-con.svg",
       telefono: "+591 73045612",
-      matricula: "USB-CON-2022089",
+      matricula: "RU-2022089",
       carreraId: "contaduria-publica",
       semestre: 8,
       mencion: "Auditoría Financiera, Tributaria y Costos Industriales",
@@ -170,7 +170,7 @@ function crearSemillaInicial() {
       email: "valeria.vargas@usalesiana.edu.bo",
       fotoDataUrl: "/avatars/avatar-gas.svg",
       telefono: "+591 76512098",
-      matricula: "USB-GAS-2023015",
+      matricula: "RU-2023015",
       carreraId: "gastronomia",
       semestre: 7,
       mencion: "Alta Cocina, Costeo Gastronómico y Gestión de Restaurantes",
@@ -205,7 +205,7 @@ function crearSemillaInicial() {
       email: "mateo.alarcon@usalesiana.edu.bo",
       fotoDataUrl: "/avatars/avatar-ico.svg",
       telefono: "+591 77289014",
-      matricula: "USB-ICO-2022033",
+      matricula: "RU-2022033",
       carreraId: "ingenieria-comercial",
       semestre: 8,
       mencion: "Inteligencia Comercial, Gestión de Calidad ISO y Marketing Estratégico",
@@ -241,7 +241,7 @@ function crearSemillaInicial() {
       email: "luciana.morales@usalesiana.edu.bo",
       fotoDataUrl: "/avatars/avatar-edu.svg",
       telefono: "+591 78934521",
-      matricula: "USB-EDU-2022067",
+      matricula: "RU-2022067",
       carreraId: "ciencias-de-la-educacion",
       semestre: 8,
       mencion: "Diseño Curricular, Tecnología Educativa y Educación Inclusiva",
@@ -277,7 +277,7 @@ function crearSemillaInicial() {
       email: "fabricio.mamani@usalesiana.edu.bo",
       fotoDataUrl: "/avatars/avatar-psm.svg",
       telefono: "+591 75218943",
-      matricula: "USB-PSM-2022019",
+      matricula: "RU-2022019",
       carreraId: "psicomotricidad",
       semestre: 8,
       mencion: "Estimulación Temprana, Neurodesarrollo y Psicomotricidad Clínica",
@@ -449,7 +449,7 @@ function renderPaginaVerificacionHTML(row, originUrl) {
           <p class="verify-uuid-label">ID Criptográfico: <code>${row.uuid}</code></p>
           <h1>${row.nombre_completo}</h1>
           <p class="verify-career" style="color:${carrera.color}">${carrera.nombre} — ${row.semestre}° Semestre</p>
-          <p class="verify-meta">Matrícula / Registro: <strong>${row.matricula || "Estudiante Regular USB"}</strong> · Sede: <strong>${row.ciudad || "La Paz, Bolivia"}</strong></p>
+          <p class="verify-meta">Registro Universitario (RU): <strong>${row.matricula || "Estudiante Regular USB"}</strong> · Sede: <strong>${row.ciudad || "La Paz, Bolivia"}</strong></p>
         </div>
       </div>
       <div class="verify-qr-box">

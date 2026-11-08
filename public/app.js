@@ -420,7 +420,7 @@ function renderizarCarpetaGenerada(data) {
     "La Paz, Bolivia",
     perfil.email,
     perfil.telefono || null,
-    perfil.matricula ? `Matrícula: ${perfil.matricula}` : null
+    perfil.matricula ? `RU: ${perfil.matricula}` : null
   ].filter(Boolean);
   document.getElementById("cv-contacto").textContent = partesContacto.join("  |  ");
 
