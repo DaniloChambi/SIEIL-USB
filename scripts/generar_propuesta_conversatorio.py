@@ -108,15 +108,16 @@ def create_document():
     r_motto.font.color.rgb = GOLD
 
     # Ficha Técnica de Portada
-    t_meta = doc.add_table(rows=8, cols=2)
+    t_meta = doc.add_table(rows=9, cols=2)
     t_meta.alignment = WD_TABLE_ALIGNMENT.CENTER
     meta_data = [
         ("Evento / Jornada:", "Conversatorio-Taller de Empleabilidad, Orientación Profesional y Habilidades Laborales"),
         ("Sede y Escenario:", "Aula Magna de la Universidad Salesiana de Bolivia (Campus Achachicala, La Paz)"),
         ("Fecha y Horario:", "Viernes 13 de Noviembre de 2026 · 18:30 a 20:30 hrs. (120 Minutos continuos)"),
         ("Plataforma Tecnológica:", "PEIL-USB (Plataforma de Empleabilidad e Intermediación Laboral de la Universidad Salesiana)"),
-        ("Población Beneficiaria:", "Estudiantes de 7° a 10° semestre y recién titulados de las 7 carreras participantes"),
-        ("Carreras Vinculadas:", "Ing. de Sistemas, Derecho, Contaduría Pública, Gastronomía y Gestión de Restaurantes, Ing. Comercial, Ciencias de la Educación y Psicomotricidad"),
+        ("Población Beneficiaria:", "Estudiantes de TODAS las carreras de la Universidad Salesiana de Bolivia, convocados prioritariamente en el ÚLTIMO SEMESTRE de formación (etapa de egreso y titulación), así como egresados y recién titulados."),
+        ("Alcance de Carreras:", "Universal a nivel institucional (Todas las Carreras y Facultades USB), con pilotaje intensivo y digitalización curricular de las 7 mallas oficiales en la plataforma PEIL-USB."),
+        ("Carreras de Referencia:", "Ing. de Sistemas, Derecho, Contaduría Pública, Gastronomía y Gestión de Restaurantes, Ing. Comercial, Ciencias de la Educación y Psicomotricidad (más carreras afines de la USB)."),
         ("Marco Normativo e Identidad:", "Reglamento R-1041, Ley N° 342 (Art. 28 - Valor Curricular de la Pastoral), Ley N° 070 y Sistema Preventivo de Don Bosco"),
         ("Responsable / Facilitador:", "Ing. Danilo Chambi, Ph.D. — Dirección de la Carrera de Ingeniería de Sistemas / Equipo Técnico PEIL-USB")
     ]
@@ -257,17 +258,19 @@ def create_document():
     # -------------------------------------------------------------
     add_h1("1. Introducción, Antecedentes y Diagnóstico Institucional")
 
-    add_p("La transición entre las aulas universitarias y el primer empleo formal constituye uno de los momentos de mayor incertidumbre para los jóvenes en Bolivia. De acuerdo con los estudios de empleabilidad juvenil y los registros de seguimiento a graduados de la Universidad Salesiana de Bolivia (USB), los estudiantes que cursan los últimos semestres (7° al 10° semestre) y los recién egresados se enfrentan de manera recurrente a una paradoja ampliamente documentada: el mercado laboral exige «experiencia laboral previa comprobable», mientras que los postulantes junior aún no han tenido la oportunidad de acceder a un contrato laboral formal dependiente.")
+    add_p("La transición entre las aulas universitarias y el primer empleo formal constituye uno de los momentos de mayor incertidumbre para los jóvenes en Bolivia. De acuerdo con los estudios de empleabilidad juvenil y los registros de seguimiento a graduados de la Universidad Salesiana de Bolivia (USB), los estudiantes que cursan el último tramo de sus carreras y los recién egresados se enfrentan de manera recurrente a una paradoja ampliamente documentada: el mercado laboral exige «experiencia laboral previa comprobable», mientras que los postulantes junior aún no han tenido la oportunidad de acceder a un contrato laboral formal dependiente.")
 
-    add_p("Esta barrera psicológica y procedimental genera lo que en psicología organizacional se denomina el «Síndrome de la Hoja en Blanco»: más del 80% de los estudiantes universitarios bolivianos manifiesta inseguridad al redactar su primer Currículum Vitae, considerando erróneamente que «no tienen nada que poner» porque reducen el concepto de trayectoria laboral a los empleos remunerados con aportes a la seguridad social. Sin embargo, durante sus 4 o 5 años de formación en la Universidad Salesiana de Bolivia, los estudiantes han desarrollado una riqueza empírica y valórica extraordinaria:")
+    add_p("Es imperativo subrayar que la convocatoria del conversatorio-taller tiene un **alcance institucional universal y abierto**: está dirigida a los estudiantes de **TODAS LAS CARRERAS de la Universidad Salesiana de Bolivia** (sin excepción de área, facultad o disciplina: ciencias jurídicas, sociales, empresariales, económicas, exactas, tecnológicas, de la educación y de la salud). Dentro de este universo, la propuesta se enfoca de manera prioritaria y estratégica en los estudiantes que cursan el **ÚLTIMO SEMESTRE DE FORMACIÓN ACADÉMICA** (8°, 9° o 10° semestre según el plan de estudios correspondiente), por encontrarse en la antesala inmediata de su graduación e inserción laboral formal.")
+
+    add_p("Esta barrera psicológica y procedimental genera lo que en psicología organizacional se denomina el «Síndrome de la Hoja en Blanco»: más del 80% de los estudiantes universitarios bolivianos manifiesta inseguridad al redactar su primer Currículum Vitae, considerando erróneamente que «no tienen nada que poner» porque reducen el concepto de trayectoria laboral a los empleos remunerados con aportes a la seguridad social. Sin embargo, al llegar al último semestre de su carrera en la Universidad Salesiana de Bolivia, los estudiantes han desarrollado una riqueza empírica y valórica extraordinaria:")
 
     add_bullet(" Proyectos semestrales aplicados, software funcional, análisis de casos jurisprudenciales, auditorías simuladas, diseño de cartas de menú con costeo real, planes de negocio y proyectos psicomotrices clínicos.", bold_prefix="Proyectos Formativos de Aula:")
     add_bullet(" Horas de práctica intensiva en talleres de gastronomía, centros de atención psicomotriz, salas de simulación de audiencias, laboratorios de redes y gabinetes contables.", bold_prefix="Prácticas de Laboratorio y Gabinete:")
     add_bullet(" Cientos de horas dedicadas al voluntariado en Oratorios Universitarios, Asociacionismo Salesiano Universitario (ASU), misiones en áreas rurales y centros de estudiantes, donde han forjado liderazgo, empatía, resiliencia y resolución de conflictos comunitarios.", bold_prefix="Compromiso Pastoral y Social Salesiano:")
 
-    add_p("El problema no radica en la falta de capacidades del estudiante salesiano, sino en la ausencia de una metodología institucional estructurada que le permita traducir, clasificar y visibilizar esas competencias académicas, técnicas y valóricas en un perfil profesional competitivo, auditable y compatible con las exigencias del mercado moderno (incluyendo los filtros algorítmicos ATS utilizados por las empresas medianas y grandes).")
+    add_p("El problema no radica en la falta de capacidades del estudiante salesiano de último semestre, sino en la ausencia de una metodología institucional estructurada que le permita traducir, clasificar y visibilizar esas competencias académicas, técnicas y valóricas en un perfil profesional competitivo, auditable y compatible con las exigencias del mercado moderno (incluyendo los filtros algorítmicos ATS utilizados por las empresas medianas y grandes).")
 
-    add_p("En este marco, la presente Propuesta Metodológica formaliza el diseño, pedagogía y operación del Conversatorio-Taller «Construye tu primer currículum, descubre tus habilidades y prepárate para tu primera oportunidad laboral», programado para el viernes 13 de noviembre de 2026 a las 18:30 horas en el Aula Magna de la USB. Este evento no se concibe como una conferencia expositiva tradicional, sino como una jornada de intervención práctica y masiva, donde los estudiantes ingresarán con dudas y saldrán del recinto con su carpeta integral de empleabilidad generada en tiempo real mediante la Plataforma PEIL-USB.")
+    add_p("En este marco, la presente Propuesta Metodológica formaliza el diseño, pedagogía y operación del Conversatorio-Taller «Construye tu primer currículum, descubre tus habilidades y prepárate para tu primera oportunidad laboral», programado para el viernes 13 de noviembre de 2026 a las 18:30 horas en el Aula Magna de la USB. Este evento no se concibe como una conferencia expositiva tradicional, sino como una jornada de intervención práctica y masiva, donde los estudiantes de todas las carreras de la universidad ingresarán con dudas y saldrán del recinto con su carpeta integral de empleabilidad generada en tiempo real mediante la Plataforma PEIL-USB.")
 
     # -------------------------------------------------------------
     # 2. MARCO FILOSÓFICO, NORMATIVO Y PEDAGÓGICO
@@ -279,7 +282,7 @@ def create_document():
 
     add_bullet(" Enseñar al estudiante a reconocer con rigor y autocrítica sus verdaderas competencias cognitivas y procedimentales adquiridas en la malla curricular. La razón exige superar la improvisación: saber qué sabe hacer y para qué tipo de puesto está preparado.", bold_prefix="La Razón (Rendimiento Técnico y Autoconocimiento):")
     add_bullet(" La formación de «buenos cristianos y honrados ciudadanos» se traduce en el mercado laboral como ética intachable, transparencia corporativa, vocación de servicio, empatía con los sectores vulnerables y rechazo absoluto a la corrupción.", bold_prefix="La Religión y la Espiritualidad (Ética Profesional Salesiana):")
-    add_bullet(" La «amorevolezza» se operativiza como el acompañamiento institucional cercano. La universidad no abandona al estudiante en la puerta del aula una vez aprobadas las materias, sino que lo toma de la mano, lo orienta pedagógicamente y le brinda herramientas digitales de vanguardia para su inserción digna en la sociedad.", bold_prefix="El Amor y la Amabilidad (Acompañamiento y Asistencia Salesiana):")
+    add_bullet(" La «amorevolezza» se operativiza como el acompañamiento institucional cercano. La universidad no abandona al estudiante en la puerta del aula una vez aprobadas las materias, sino que lo toma de la mano en su último semestre, lo orienta pedagógicamente y le brinda herramientas digitales de vanguardia para su inserción digna en la sociedad.", bold_prefix="El Amor y la Amabilidad (Acompañamiento y Asistencia Salesiana):")
 
     add_h2("2.2. Marco Normativo Legal Nacional")
     add_p("El taller y la plataforma de soporte se articulan estrictamente con la legislación nacional vigente:")
@@ -290,12 +293,12 @@ def create_document():
 
     add_h2("2.3. Estándares Internacionales del Mercado de Empleo")
     add_bullet(" Estipulan la gratuidad total de los servicios de intermediación para los postulantes y la necesidad de vincular tres componentes: orientación vocacional, cruce de perfiles y certificación de habilidades.", bold_prefix="Convenio N° 88 y Recomendación N° 195 de la OIT:")
-    add_bullet(" Estructura las competencias de las 7 carreras de la USB en habilidades cognitivas, destrezas de especialidad y competencias transversales estandarizadas, facilitando el emparejamiento con vacantes locales e internacionales.", bold_prefix="Taxonomía Europea de Competencias y Ocupaciones (ESCO / O*NET):")
+    add_bullet(" Estructura las competencias de las carreras de la USB en habilidades cognitivas, destrezas de especialidad y competencias transversales estandarizadas, facilitando el emparejamiento con vacantes locales e internacionales.", bold_prefix="Taxonomía Europea de Competencias y Ocupaciones (ESCO / O*NET):")
     add_bullet(" Más del 70% de las corporaciones medianas y grandes en Bolivia y la región filtran los CVs mediante motores de lectura automatizada (ATS). Estos motores rechazan currículums con tablas complejas, fuentes no estándar, gráficos o fotografías incrustadas en el texto. La propuesta introduce el concepto del «Doble CV»: un CV Institucional Formal (con foto, marco y sello QR para entrega en persona) y un CV Limpio ATS (texto jerarquizado para postulación en portales digitales).", bold_prefix="Estándar ATS (Applicant Tracking Systems):")
 
     add_callout(
-        "El taller no enseñará a inflar un currículum con datos falsos, sino a ordenar con rigor científico y metodológico la evidencia real que cada estudiante ya generó en la universidad, certificando su compromiso pastoral bajo la Ley N° 342.",
-        title="DECLARACIÓN DE INTEGRIDAD METODOLÓGICA"
+        "El taller convoca de forma universal a todas las carreras de la USB y pone el foco en el último semestre de formación para convertir la culminación de estudios en una inserción laboral inmediata, ética y legalmente respaldada por la Ley N° 342.",
+        title="DECLARACIÓN DE INTEGRIDAD Y ALCANCE INSTITUCIONAL"
     )
 
     # -------------------------------------------------------------
@@ -304,33 +307,50 @@ def create_document():
     add_h1("3. Objetivos y Metas de la Jornada")
 
     add_h2("3.1. Objetivo General")
-    add_p("Capacitar, empoderar e instrumentar a los estudiantes de últimos semestres y titulados de la Universidad Salesiana de Bolivia en la construcción interactiva de su perfil profesional de alto impacto, generación de su carpeta de empleabilidad (CV Formal con QR, CV ATS, Carta de Motivación y Guía STAR) y entrenamiento en entrevistas laborales, mediante la aplicación de la Plataforma PEIL-USB en tiempo real durante la jornada del 13 de noviembre en el Aula Magna.")
+    add_p("Capacitar, empoderar e instrumentar a los estudiantes de **TODAS LAS CARRERAS de la Universidad Salesiana de Bolivia**, con atención focalizada y prioritaria en los cursantes del **ÚLTIMO SEMESTRE DE FORMACIÓN** y recién titulados, en la construcción interactiva de su perfil profesional de alto impacto, generación de su carpeta de empleabilidad (CV Formal con QR, CV ATS, Carta de Motivación y Guía STAR) y entrenamiento en entrevistas laborales, mediante la aplicación de la Plataforma PEIL-USB en tiempo real durante la jornada del 13 de noviembre en el Aula Magna.")
 
     add_h2("3.2. Objetivos Específicos")
-    add_bullet(" Desmontar la creencia limitante de la «falta de experiencia», identificando los proyectos formativos de aula, prácticas de laboratorio y actividades de extensión como evidencia empírica válida para el mercado laboral.", bold_prefix="1. Desmitificación y Autodiagnóstico:")
-    add_bullet(" Clasificar las capacidades de los participantes bajo la taxonomía internacional ESCO mapeada a las mallas curriculares oficiales de las 7 carreras de la USB, integrando el reconocimiento curricular de la pastoral universitaria (Ley N° 342 Art. 28).", bold_prefix="2. Mapeo de Competencias:")
-    add_bullet(" Guiar a la audiencia en el uso de la Plataforma PEIL-USB desde sus dispositivos móviles (Mobile-First) para que generen y descarguen en vivo su CV Institucional con Sello Criptográfico QR y su versión optimizada para ATS.", bold_prefix="3. Generación Tecnológica en Vivo:")
-    add_bullet(" Entrenar a los estudiantes en la resolución de entrevistas de trabajo mediante la metodología STAR (Situación, Tarea, Acción, Resultado), simulando casos reales en el escenario del Aula Magna.", bold_prefix="4. Entrenamiento en Entrevistas Laborales:")
+    add_bullet(" Desmontar la creencia limitante de la «falta de experiencia» en los estudiantes que están a punto de egresar, identificando sus proyectos formativos de aula, prácticas de laboratorio y actividades de extensión como evidencia empírica válida para el mercado laboral.", bold_prefix="1. Desmitificación y Autodiagnóstico en Egresados:")
+    add_bullet(" Clasificar las capacidades de los participantes bajo la taxonomía internacional ESCO mapeada a las mallas curriculares de la USB, integrando el reconocimiento curricular de la pastoral universitaria (Ley N° 342 Art. 28).", bold_prefix="2. Mapeo Multidisciplinario de Competencias:")
+    add_bullet(" Guiar a la audiencia de todas las carreras en el uso de la Plataforma PEIL-USB desde sus dispositivos móviles (Mobile-First) para que generen y descarguen en vivo su CV Institucional con Sello Criptográfico QR y su versión optimizada para ATS.", bold_prefix="3. Generación Tecnológica en Vivo:")
+    add_bullet(" Entrenar a los estudiantes de último semestre en la resolución de entrevistas de trabajo mediante la metodología STAR (Situación, Tarea, Acción, Resultado), simulando casos reales en el escenario del Aula Magna.", bold_prefix="4. Entrenamiento en Entrevistas Laborales:")
     add_bullet(" Explicar los mecanismos institucionales de Trabajo Dirigido, convenios interinstitucionales vigentes y la ruta de nivelación de habilidades faltantes mediante la plataforma MOOC de la USB (`mooc.usalesiana.online`).", bold_prefix="5. Intermediación y Cierre de Brechas:")
 
     add_h2("3.3. Metas Cuantitativas y Cualitativas")
-    add_bullet(" Convocatoria de entre 250 y 350 estudiantes en las butacas del Aula Magna pertenecientes a las 7 carreras seleccionadas.", bold_prefix="Asistencia Proyectada:")
+    add_bullet(" Convocatoria de entre 250 y 350 estudiantes en las butacas del Aula Magna, asegurando representación de todas las facultades y carreras de la USB, con mayoría de estudiantes de último semestre.", bold_prefix="Asistencia Proyectada:")
     add_bullet(" Al menos el 90% de los estudiantes asistentes conectados a la red generan y descargan su CV en PDF en sus teléfonos celulares durante el bloque práctico.", bold_prefix="Efectividad Documental:")
     add_bullet(" El 100% de los perfiles creados quedan registrados con su código oficial de Registro Universitario (RU).", bold_prefix="Acreditación Institucional:")
     add_bullet(" Al menos el 45% de los perfiles incorporan horas certificadas de Oratorio, Voluntariado ASU, Centros de Estudiantes o Misiones Solidarias.", bold_prefix="Reconocimiento Pastoral:")
     add_bullet(" Calificación de satisfacción del taller mayor o igual al 92% en la encuesta digital rápida de cierre.", bold_prefix="Satisfacción Estudiantil:")
 
     # -------------------------------------------------------------
-    # 4. CARRERAS PARTICIPANTES Y POBLACIÓN BENEFICIARIA
+    # 4. ALCANCE UNIVERSAL A TODAS LAS CARRERAS Y FOCO EN EL ÚLTIMO SEMESTRE
     # -------------------------------------------------------------
-    add_h1("4. Carreras Participantes y Población Beneficiaria")
-    add_p("El taller ha sido diseñado con un enfoque multidisciplinario, articulando a las siete carreras que cuentan con mallas curriculares actualizadas y convenios institucionales en la plataforma PEIL-USB:")
+    add_h1("4. Población Beneficiaria, Alcance Abierto a Todas las Carreras y Foco en el Último Semestre")
+
+    add_h2("4.1. Convocatoria Institucional Abierta a Todas las Carreras de la USB")
+    add_p("La Universidad Salesiana de Bolivia cuenta con una diversa oferta académica en áreas empresariales, tecnológicas, jurídicas, sociales y de la salud. La problemática del desempleo juvenil, la inseguridad al redactar el primer currículum y el descarte automatizado por filtros ATS no distingue carreras: afecta tanto a un futuro abogado como a un ingeniero de sistemas, un contador público, un gastrónomo, un pedagogo, un psicomotricista o un comunicador social.")
+
+    add_p("Por ello, la presente propuesta metodológica establece que **el evento es formalmente abierto y convoca a los estudiantes de todas las carreras de la USB**. Las Direcciones de Carrera de toda la universidad, en coordinación con el Vicerrectorado Académico y la Dirección de Pastoral, emitirán comunicados oficiales para que la comunidad estudiantil participe masivamente en la jornada.")
+
+    add_h2("4.2. Por qué el Foco Prioritario está en el Último Semestre de Formación")
+    add_p("Si bien el taller resulta enriquecedor para cualquier estudiante universitario, la metodología se enfoca de manera primordial en los estudiantes que cursan el **último semestre de su plan de estudios** (etapa terminal de culminación académica) y recién egresados, debido a cuatro factores determinantes:")
+
+    add_bullet(" El estudiante de último semestre ya ha vencido entre el 90% y el 100% de sus asignaturas troncales. Cuenta con una masa crítica de proyectos, laboratorios y conocimientos consolidados listos para ser transformados en un perfil profesional completo.", bold_prefix="1. Consolidación de Competencias:")
+    add_bullet(" En la USB, el último semestre coincide con la elección y ejecución de modalidades de graduación, especialmente el Trabajo Dirigido y la Práctica Profesional en instituciones externas. El taller les dota de la carpeta formal requerida para gestionar sus plazas.", bold_prefix="2. Articulación con Modalidades de Graduación:")
+    add_bullet(" Los estudiantes terminales se encuentran a escasas semanas o meses de su ingreso definitivo al mercado de trabajo. La necesidad de un CV formal, un CV ATS y entrenamiento en entrevistas es inmediata y de aplicación práctica urgente.", bold_prefix="3. Proximidad de la Inserción Laboral:")
+    add_bullet(" Durante sus años de permanencia en la USB, los estudiantes de último semestre acumularon horas de pastoral en oratorios, voluntariado ASU o misiones. Es el momento decisivo para certificar ese valor bajo la Ley N° 342 y distinguirse de postulantes de otras universidades.", bold_prefix="4. Certificación del Trayecto Formativo Integral:")
+
+    add_h2("4.3. Estrategia Operativa en Dos Niveles en la Plataforma PEIL-USB")
+    add_p("Para conciliar la convocatoria abierta a todas las carreras con la precisión técnica de la plataforma digital, PEIL-USB opera bajo una **estrategia pedagógica y funcional de dos niveles**:")
+
+    add_bullet(" Cualquier estudiante de cualquier carrera de la USB puede ingresar a la plataforma con su correo y RU, completar sus datos de identidad, cargar su fotografía formal, seleccionar sus competencias transversales, acreditar sus horas de pastoral (Ley N° 342) y redactar sus proyectos, obteniendo de inmediato su CV Formal con QR y su CV ATS.", bold_prefix="Nivel 1 — Funcionalidad Universal para Todas las Carreras:")
+    add_bullet(" Siete carreras de alta representatividad cuentan con sus mallas curriculares troncales digitalizadas y vacantes de convenio precargadas en el motor IA (Sistemas, Derecho, Contaduría, Gastronomía, Comercial, Educación y Psicomotricidad). Estas 7 mallas sirven como modelo de referencia en pantalla durante el taller, proyectando el estándar hacia la Fase 2, en la que se digitalizarán los pensums de las carreras restantes.", bold_prefix="Nivel 2 — Mapeo Curricular Profundo de Referencia (7 Carreras Piloto):")
 
     t_carreras = doc.add_table(rows=8, cols=5)
     t_carreras.alignment = WD_TABLE_ALIGNMENT.CENTER
-    carreras_headers = ["Carrera USB", "Semestres Meta", "Competencias Clave (ESCO)", "Proyecto Emblemático de Aula", "Entidad en Convenio Demostrativa"]
+    carreras_headers = ["Carrera USB (Modelo Piloto)", "Último Semestre Meta", "Competencias Clave (ESCO)", "Proyecto Emblemático de Aula", "Entidad en Convenio Demostrativa"]
     
-    # Header styling
     for col_idx, h_text in enumerate(carreras_headers):
         c = t_carreras.rows[0].cells[col_idx]
         set_cell_margins(c, 80, 80, 80, 80)
@@ -344,13 +364,13 @@ def create_document():
         run.font.color.rgb = RGBColor(255, 255, 255)
 
     carreras_rows = [
-        ("Ingeniería de Sistemas", "7° a 10° Sem. / Egresados", "Desarrollo Web Full-Stack, PostgreSQL, Docker, Scrum, IA y Arquitectura TI.", "Sistema Web de Gestión Académica y Reportes con Firma QR en Contenedores.", "Banco PyME Ecofuturo (Convenio USB-014)"),
-        ("Derecho", "7° a 10° Sem. / Egresados", "Memoriales, Contratos Civiles/Comerciales, Trámites SEPREC, MASC y Litigación.", "Clínica Jurídica de Conciliación Extrajudicial y Contratos Comerciales Ley 2341.", "Cámara Nacional de Comercio — CNC (Convenio USB-008)"),
-        ("Contaduría Pública", "7° a 10° Sem. / Egresados", "Estados Financieros NIIF, SIAT SIN, Planillas ROE/Gestora, Costos y Auditoría COSO.", "Legajo Completo de Auditoría Financiera y Declaración Tributaria Integral.", "Consultora Delta Auditores & Asoc. (Convenio USB-021)"),
-        ("Gastronomía y Gestión", "5° a 8° Sem. / Egresados", "Inocuidad BPM, Costeo A&B, Fichas Técnicas, Alta Cocina y Gestión de Banquetes.", "Estandarización de 25 Recetas con Control de Mermas y Servicio para 120 pax.", "Hotel Casa Grande & Centro Convenciones (Convenio USB-019)"),
-        ("Ingeniería Comercial", "6° a 8° Sem. / Egresados", "Investigación de Mercados, KPIs Power BI, Calidad ISO 9001 y Evaluación Proyectos.", "Plan Estratégico de Marketing, Embudo de Ventas y Manual de Procesos ISO.", "Grupo Industrial CBN / Dist. Andina (Convenio USB-032)"),
-        ("Ciencias de la Educación", "6° a 9° Sem. / Egresados", "Diseño Curricular, Didáctica Virtual LMS/Moodle, Inclusión y Marco Lógico.", "Proyecto Socioeducativo de Adaptación Curricular y Aula Virtual por Competencias.", "Fundación Fe y Alegría / Obras Salesianas (Convenio USB-005)"),
-        ("Psicomotricidad", "6° a 10° Sem. / Egresados", "Atención Temprana, Evaluación Neurodesarrollo, Test Psicomotores y Clínica.", "Protocolo de Balance Psicomotor Infantil y Plan Terapéutico Individualizado.", "Centro de Rehabilitación San Juan de Dios (Convenio USB-011)")
+        ("Ingeniería de Sistemas", "10° Semestre / Egresados", "Desarrollo Web Full-Stack, PostgreSQL, Docker, Scrum, IA y Arquitectura TI.", "Sistema Web de Gestión Académica y Reportes con Firma QR en Contenedores.", "Banco PyME Ecofuturo (Convenio USB-014)"),
+        ("Derecho", "10° Semestre / Egresados", "Memoriales, Contratos Civiles/Comerciales, Trámites SEPREC, MASC y Litigación.", "Clínica Jurídica de Conciliación Extrajudicial y Contratos Comerciales Ley 2341.", "Cámara Nacional de Comercio — CNC (Convenio USB-008)"),
+        ("Contaduría Pública", "10° Semestre / Egresados", "Estados Financieros NIIF, SIAT SIN, Planillas ROE/Gestora, Costos y Auditoría COSO.", "Legajo Completo de Auditoría Financiera y Declaración Tributaria Integral.", "Consultora Delta Auditores & Asoc. (Convenio USB-021)"),
+        ("Gastronomía y Gestión", "8° Semestre / Egresados", "Inocuidad BPM, Costeo A&B, Fichas Técnicas, Alta Cocina y Gestión de Banquetes.", "Estandarización de 25 Recetas con Control de Mermas y Servicio para 120 pax.", "Hotel Casa Grande & Centro Convenciones (Convenio USB-019)"),
+        ("Ingeniería Comercial", "8° Semestre / Egresados", "Investigación de Mercados, KPIs Power BI, Calidad ISO 9001 y Evaluación Proyectos.", "Plan Estratégico de Marketing, Embudo de Ventas y Manual de Procesos ISO.", "Grupo Industrial CBN / Dist. Andina (Convenio USB-032)"),
+        ("Ciencias de la Educación", "9° Semestre / Egresados", "Diseño Curricular, Didáctica Virtual LMS/Moodle, Inclusión y Marco Lógico.", "Proyecto Socioeducativo de Adaptación Curricular y Aula Virtual por Competencias.", "Fundación Fe y Alegría / Obras Salesianas (Convenio USB-005)"),
+        ("Psicomotricidad", "10° Semestre / Egresados", "Atención Temprana, Evaluación Neurodesarrollo, Test Psicomotores y Clínica.", "Protocolo de Balance Psicomotor Infantil y Plan Terapéutico Individualizado.", "Centro de Rehabilitación San Juan de Dios (Convenio USB-011)")
     ]
 
     for row_idx, row_data in enumerate(carreras_rows):
@@ -366,7 +386,6 @@ def create_document():
             r.font.size = Pt(8.5)
             r.font.color.rgb = DARK_GRAY
 
-    # Anchos de columna
     widths = [Inches(1.2), Inches(0.9), Inches(1.8), Inches(1.7), Inches(1.4)]
     for row in t_carreras.rows:
         for idx, w in enumerate(widths):
@@ -455,12 +474,12 @@ def create_document():
     add_h3("Bloque 4: Simulación de Entrevistas de Trabajo: Técnica STAR (19:40 - 20:00 | 20 min)")
     add_p("Este bloque entrena la comunicación oral y el desempeño en la entrevista de selección:")
     add_bullet(" El facilitador explica los 4 componentes de la técnica recomendada por reclutadores internacionales: **S**ituación (el contexto del problema), **T**area (el reto específico asignado), **A**cción (lo que el estudiante hizo directamente) y **R**esultado (el impacto positivo medible).", bold_prefix="1. Metodología STAR (5 min):")
-    add_bullet(" Se invita al escenario a dos estudiantes voluntarios de distintas carreras (ej. uno de Sistemas y una de Gastronomía o Derecho). El facilitador simula una entrevista real utilizando las preguntas STAR que la plataforma PEIL-USB les acaba de generar en sus celulares.", bold_prefix="2. Dinámica de Role-Playing en Escenario (10 min):")
+    add_bullet(" Se invita al escenario a dos estudiantes voluntarios de distintas carreras de último semestre. El facilitador simula una entrevista real utilizando las preguntas STAR que la plataforma PEIL-USB les acaba de generar en sus celulares.", bold_prefix="2. Dinámica de Role-Playing en Escenario (10 min):")
     add_bullet(" Retroalimentación inmediata con participación del auditorio: postura corporal, contacto visual, tono de voz asertivo y cómo convertir un proyecto de aula o una experiencia en el Oratorio en una respuesta contundente de liderazgo y resolución de problemas.", bold_prefix="3. Feedback en Vivo y Buenas Prácticas (5 min):")
 
     # Bloque 5
     add_h3("Bloque 5: Bolsa de Oportunidades, Convenios y Nivelación MOOC (20:00 - 20:15 | 15 min)")
-    add_bullet(" Presentación de las oportunidades vigentes cargadas en el sistema para cada una de las 7 carreras (Banco Ecofuturo, CNC, Delta Auditores, Hotel Casa Grande, CBN, Fe y Alegría, San Juan de Dios). Se explica el candado institucional: toda pasantía debe fluir por convenio formal para proteger legalmente al estudiante.", bold_prefix="1. El Candado de Convenios USB (5 min):")
+    add_bullet(" Presentación de las oportunidades vigentes cargadas en el sistema para las carreras participantes (Banco Ecofuturo, CNC, Delta Auditores, Hotel Casa Grande, CBN, Fe y Alegría, San Juan de Dios). Se explica el candado institucional: toda pasantía debe fluir por convenio formal para proteger legalmente al estudiante.", bold_prefix="1. El Candado de Convenios USB (5 min):")
     add_bullet(" Demostración de cómo el algoritmo de PEIL-USB calcula el Índice de Compatibilidad ($IC$) comparando el perfil del estudiante con los requisitos de la vacante, mostrando el porcentaje de ajuste en tiempo real.", bold_prefix="2. Matching Algorítmico (5 min):")
     add_bullet(" Se muestra la conexión pedagógica de PEIL-USB con la plataforma `mooc.usalesiana.online`: si a un estudiante le falta una competencia para alcanzar el 100% (ej. Docker en Sistemas, SICOES en Derecho, Power BI en Comercial o HACCP en Gastronomía), el sistema le recomienda el curso virtual gratuito para cerrar su brecha y postular con éxito.", bold_prefix="3. Cierre de Brechas con MOOC (5 min):")
 
@@ -529,7 +548,7 @@ def create_document():
         run.font.color.rgb = RGBColor(255, 255, 255)
 
     raci_rows = [
-        ("Convocatoria y difusión masiva por carreras", "C", "R", "A", "I", "C"),
+        ("Convocatoria y difusión masiva a todas las carreras de la USB", "C", "R", "A", "I", "C"),
         ("Despliegue y pruebas de carga en servidor Dokploy", "A / R", "I", "I", "C", "I"),
         ("Preparación y prueba de WiFi en el Aula Magna", "C", "I", "I", "A / R", "I"),
         ("Acreditación y entrega de programas QR en puerta", "I", "C", "I", "I", "A / R"),
@@ -614,7 +633,7 @@ def create_document():
     add_h1("10. Evaluación, Indicadores de Impacto (KPIs) y Entregables Post-Evento")
 
     add_h2("10.1. Indicadores Clave de Éxito de la Jornada")
-    add_bullet(" Número total de estudiantes registrados con RU en la base de datos de PEIL-USB durante las 2 horas del evento (Meta: >= 250).", bold_prefix="KPI 1 — Tasa de Adopción Digital:")
+    add_bullet(" Número total de estudiantes de último semestre registrados con RU en la base de datos de PEIL-USB durante las 2 horas del evento (Meta: >= 250).", bold_prefix="KPI 1 — Tasa de Adopción Digital en Último Semestre:")
     add_bullet(" Cantidad de Currículums Vitae en PDF y cartas de presentación descargadas en los dispositivos móviles de los asistentes (Meta: >= 220).", bold_prefix="KPI 2 — Rendimiento Documental:")
     add_bullet(" Porcentaje de perfiles que acreditaron al menos una actividad pastoral (Oratorio, ASU, Misiones, Centro de Estudiantes) bajo la Ley N° 342 (Meta: >= 40%).", bold_prefix="KPI 3 — Reconocimiento Pastoral Curricular:")
     add_bullet(" Porcentaje de estudiantes que reportan sentirse «altamente preparados» o «preparados» para una entrevista de trabajo tras el ejercicio STAR (Meta: >= 85%).", bold_prefix="KPI 4 — Eficacia en Entrevistas STAR:")
@@ -623,7 +642,7 @@ def create_document():
     add_h2("10.2. Entregables Institucionales Post-Evento para el Consejo Académico y Rectoral")
     add_p("Al concluir la jornada del viernes 13 de noviembre, la Dirección de la Carrera de Ingeniería de Sistemas y el equipo técnico de PEIL-USB entregarán a las máximas autoridades de la universidad:")
 
-    add_bullet(" Listado consolidado y auditable de los estudiantes registrados, ordenados por carrera, semestre, RU y competencias técnicas declaradas.", bold_prefix="1. Padrón Institucional de Talentos USB:")
+    add_bullet(" Listado consolidado y auditable de los estudiantes registrados de las diferentes carreras de la USB, ordenados por carrera, semestre, RU y competencias técnicas declaradas.", bold_prefix="1. Padrón Institucional de Talentos USB:")
     add_bullet(" Informe analítico que identifique qué competencias de la taxonomía ESCO fueron las más seleccionadas por los estudiantes y cuáles presentaron mayores vacíos respecto a las ofertas de empleo en convenio, constituyendo un insumo científico invaluable para los Comités de Rediseño Curricular.", bold_prefix="2. Mapeo Estadístico de Brechas de Habilidades:")
     add_bullet(" Archivo de trazabilidad que almacena los sellos criptográficos QR emitidos, permitiendo a las empresas e instituciones que tienen convenios con la USB verificar la autenticidad de los postulantes de manera indefinida.", bold_prefix="3. Repositorio de Perfiles Verificados:")
     add_bullet(" Documento de lecciones aprendidas y cronograma de despliegue para la Fase 2 de PEIL-USB (habilitación del portal exclusivo para empresas contrapartes y sincronización directa con el Sistema Académico central de la USB).", bold_prefix="4. Hoja de Ruta para la Fase 2:")
@@ -632,7 +651,9 @@ def create_document():
     # CONCLUSIÓN INSTITUCIONAL Y FIRMAS
     # -------------------------------------------------------------
     add_h1("Conclusión y Solicitud de Aprobación")
-    add_p("El conversatorio-taller del viernes 13 de noviembre en el Aula Magna no es un evento aislado ni una charla motivacional pasajera; representa el punto de partida operativo para transformar la empleabilidad en la Universidad Salesiana de Bolivia. Al poner en manos de los estudiantes una herramienta moderna, ética y potente como PEIL-USB, la institución hace honor a la promesa salesiana de formar «buenos cristianos y honrados ciudadanos» capaces de insertarse con éxito, dignidad y liderazgo en el tejido productivo del país.")
+    add_p("El conversatorio-taller del viernes 13 de noviembre en el Aula Magna no es un evento aislado ni una charla motivacional pasajera; representa el punto de partida operativo para transformar la empleabilidad en la Universidad Salesiana de Bolivia. Al convocar a los estudiantes de todas las carreras de la institución y concentrar los esfuerzos en quienes cursan su último semestre de formación, la universidad brinda una respuesta concreta a la angustia del primer empleo.")
+
+    add_p("Poner en manos de los futuros egresados una herramienta moderna, ética y potente como PEIL-USB hace honor a la promesa salesiana de formar «buenos cristianos y honrados ciudadanos» capaces de insertarse con éxito, dignidad y liderazgo en el tejido productivo del país.")
 
     add_p("Por todo lo expuesto, se solicita formalmente al Consejo Académico y a las autoridades universitarias la aprobación del presente documento técnico R-1041, autorizando la coordinación logística, tecnológica y pastoral para el exitoso desarrollo de la jornada.")
 
@@ -679,7 +700,7 @@ def create_document():
     r_f3.font.color.rgb = DARK_GRAY
 
     doc.save(OUTPUT_PATH)
-    print(f"Documento generado exitosamente en: {OUTPUT_PATH}")
+    print(f"Documento regenerado exitosamente en: {OUTPUT_PATH}")
 
 if __name__ == "__main__":
     create_document()
