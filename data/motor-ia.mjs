@@ -1,6 +1,6 @@
 // Motor de Empleabilidad Asistido por IA y Emparejamiento Multicriterio - PEIL-USB
 // Soporta:
-// 1. Google Gemini API (gemini-3.8-flash — Interactions API con Structured Output JSON)
+// 1. Google Gemini API (gemini-2.5-flash — Google AI Studio generateContent con Structured Output JSON)
 // 2. OpenAI API (gpt-4o-mini — Structured Outputs json_schema)
 // 3. Motor Experto Institucional Determinista (0ms latencia / Respaldo en vivo para el Aula Magna)
 
@@ -284,46 +284,73 @@ ${JSON.stringify(
   2
 )}`;
 
-  // 1. Intentar con Gemini API (gemini-3.8-flash — Interactions API)
+  // 1. Intentar con Google Gemini API (Google AI Studio estándar con Structured Output)
   if (geminiKey) {
+    const geminiModel = process.env.GEMINI_MODEL || "gemini-2.5-flash";
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 9000);
-      const res = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
-        method: "POST",
-        headers: {
-          "x-goog-api-key": geminiKey,
-          "Content-Type": "application/json",
-          "Api-Revision": "2026-05-20"
-        },
-        body: JSON.stringify({
-          model: "gemini-3.8-flash",
-          input: promptContexto,
-          response_format: {
-            type: "text",
-            mime_type: "application/json",
-            schema: OUTPUT_SCHEMA
-          }
-        }),
-        signal: controller.signal
-      });
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent`,
+        {
+          method: "POST",
+          headers: {
+            "x-goog-api-key": geminiKey,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: promptContexto }] }],
+            generationConfig: {
+              temperature: 0.2,
+              responseMimeType: "application/json",
+              responseSchema: OUTPUT_SCHEMA
+            }
+          }),
+          signal: controller.signal
+        }
+      );
       clearTimeout(timeout);
 
       if (res.ok) {
         const data = await res.json();
-        const rawText =
-          data.output_text ||
-          data.steps
-            ?.filter((s) => s.type === "model_output")
-            .flatMap((s) => s.content || [])
-            .map((c) => c.text || "")
-            .join("");
+        const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
         if (rawText) {
           const parsed = JSON.parse(rawText);
           return {
-            proveedorUsado: "Google Gemini API (gemini-3.8-flash)",
+            proveedorUsado: `Google Gemini API (${geminiModel})`,
             ...parsed
           };
+        }
+      } else {
+        // Fallback a gemini-1.5-flash si el modelo solicitado no estuviese habilitado
+        const fallbackModel = "gemini-1.5-flash";
+        const res2 = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${fallbackModel}:generateContent`,
+          {
+            method: "POST",
+            headers: {
+              "x-goog-api-key": geminiKey,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: promptContexto }] }],
+              generationConfig: {
+                temperature: 0.2,
+                responseMimeType: "application/json",
+                responseSchema: OUTPUT_SCHEMA
+              }
+            })
+          }
+        );
+        if (res2.ok) {
+          const data2 = await res2.json();
+          const rawText2 = data2.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (rawText2) {
+            return {
+              proveedorUsado: `Google Gemini API (${fallbackModel})`,
+              ...JSON.parse(rawText2)
+            };
+          }
         }
       }
     } catch (_err) {

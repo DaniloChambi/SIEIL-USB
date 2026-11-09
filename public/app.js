@@ -930,7 +930,7 @@ async function initApp() {
     localStorage.setItem("sieil_usb_apikey", state.apiKey);
     document.getElementById("badge-motor-ia").textContent = state.apiKey
       ? state.apiKey.startsWith("AIza")
-        ? "Gemini 3.8 Flash"
+        ? "Gemini 2.5 Flash"
         : "OpenAI API"
       : "Institucional Activo";
     drawerConfig.hidden = true;

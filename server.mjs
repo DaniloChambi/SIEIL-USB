@@ -522,7 +522,7 @@ const server = http.createServer(async (req, res) => {
         iaActiva: {
           geminiConfigurado: Boolean(process.env.GEMINI_API_KEY),
           openaiConfigurado: Boolean(process.env.OPENAI_API_KEY),
-          modeloRecomendado: "gemini-3.8-flash"
+          modeloRecomendado: process.env.GEMINI_MODEL || "gemini-2.5-flash"
         }
       });
     }
